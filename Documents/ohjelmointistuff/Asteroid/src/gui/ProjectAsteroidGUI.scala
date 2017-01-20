@@ -1,5 +1,0 @@
-package gui
-
-object ProjectAsteroidGUI {
-  
-}
