@@ -1,21 +1,24 @@
+import processing.core.PApplet
+import java.awt.Rectangle
+
+
 import processing.core._
 import scala.math._
 import java.awt.Rectangle
 import java.awt.geom.Rectangle2D
-import processing.core.PApplet
+import java.awt.geom.RectangularShape
 
 
-class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
+class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
   P.sketchFile("Barrel.png")
   private val image = P.loadImage("Barrel.png")
   image.resize(35,35)
   private var xCoord = if (fromLeft) 0.0f else 1140
   private var yCoord = 260.0f
-  private var isSaved = false
+  var cosVal = 0.0f
   
   damage = 0
   
-  var cosVal = 0.0f
   
   def getX = xCoord
   def getY = yCoord
@@ -24,7 +27,7 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
   
   def move()= {
     if (!this.checkCollision(Whale) && flag) {
-      yCoord = cos(cosVal).toFloat * 15.0f + 260f
+      yCoord = cos(cosVal).toFloat * 15.0f + 270f
       cosVal = cosVal + 0.01f * 5f
 
       if (xCoord > xDestination - 1 && xCoord < xDestination + 1) {
@@ -34,26 +37,24 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
       } else {
         xCoord -= 0.5f
       }
-      draw
-    } else {
-      yCoord -= 10
-      draw
+      this.draw
     }
   }
   
-  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
+  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width, this.image.height)
   
+
 }
-//  //  P.sketchFile("Barrel.png")
+  
+  //  P.sketchFile("Barrel.png")
 //  private val image = P.loadImage("Barrel.png")
 //  image.resize(35,35)
 //  private var xCoord = if (fromLeft) 0.0f else 1140
 //  private var yCoord = 260.0f
-//  private var isSaved = false
+//  var cosVal = 0.0f
 //  
 //  damage = 0
 //  
-//  var cosVal = 0.0f
 //  
 //  def getX = xCoord
 //  def getY = yCoord
@@ -62,7 +63,7 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
 //  
 //  def move()= {
 //    if (!this.checkCollision(Whale) && flag) {
-//      yCoord = cos(cosVal).toFloat * 15.0f + 260f
+//      yCoord = cos(cosVal).toFloat * 15.0f + 270f
 //      cosVal = cosVal + 0.01f * 5f
 //
 //      if (xCoord > xDestination - 1 && xCoord < xDestination + 1) {
@@ -72,21 +73,18 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
 //      } else {
 //        xCoord -= 0.5f
 //      }
-//      draw
-//    } else {
-//      yCoord -= 10
-//      draw
+//      this.draw
 //    }
 //  }
 //  
-//  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
-//  
+//  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width, this.image.height)
 //  
 //  
 ////  def interLapsWithWhale = {
-////    if (Whale.bounds.intersects(bounds)) {
-////      isSaved = true
+////    if (Whale.bounds.intersects(getBounds)) {
+////      isDestroyed = true
 ////    }
-////    isSaved
+////    isDestroyed
 ////  }
 //  
+//
