@@ -88,7 +88,7 @@ object Whale extends PApplet with Actor {
   def moveTo(location: PVector) = {
     target = location
     var offset = sub(location, position).normalize()
-    target = location.add(offset.mult(100f))
+    target = location.add(offset.mult(60f))
     target = location
 
   }

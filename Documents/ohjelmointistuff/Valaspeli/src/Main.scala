@@ -11,6 +11,7 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
+  sketchFile("Other/Bubble.png")
   var running = true
   var currentAngle = 0f
   val input = new Input(this)
@@ -18,6 +19,7 @@ class ScalaProcessingExample extends PApplet {
   var state = STATE.MENU
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
+  var bubble = loadImage("Other/Bubble.png")
   var last = new PVector(0, 0)
   override def setup() = {
     frameRate(120)
@@ -76,18 +78,20 @@ class ScalaProcessingExample extends PApplet {
       //      println("Hei: " + angle)
 
       rotate(angle + 90.toRadians)
-
+      val loc = -60
       if (Whale.dir() == 1) {
-        image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
+        image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
       } else {
         pushMatrix()
         scale(1.0f, -1.0f)
-        image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
+        image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
         popMatrix()
       }
 
       popMatrix()
+      Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
     } else if (state == STATE.MENU) {
+      
       image(menu, Menu.x, Menu.y)
     }
 
@@ -129,7 +133,7 @@ class ScalaProcessingExample extends PApplet {
   def setState(s: STATE.Value) = state = s
 
   def tick() = {
-
+    Bubbles.bubbles.foreach { x => x.tick(1f) }
     Whale.tick(1)
     input.update(mouseX, mouseY)
   }
