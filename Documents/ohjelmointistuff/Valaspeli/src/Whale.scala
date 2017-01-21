@@ -128,7 +128,7 @@ object Whale extends PApplet with Actor {
 //    println("Target: " + target)
 //    println("Old pos:" + old_pos)
 //    position = old_pos
-    target = location
+    target = location//.copy.add(new PVector(-50,-20))
 
   }
 

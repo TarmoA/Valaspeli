@@ -67,7 +67,7 @@ class ScalaProcessingExample extends PApplet {
     k.move
     d.move
     squirtHandler.update(squirtAngle, lookAngle)
-
+    Input.mousePressed(new PVector(mouseX, mouseY))
   }
   val squirtHandler = new SquirtHandler(this)
   
@@ -137,9 +137,11 @@ class ScalaProcessingExample extends PApplet {
   }
   //  thread.start
 
-  override def mousePressed {
+  /*override def mousePressed {
     Input.mousePressed(new PVector(mouseX, mouseY))
   }
+  * 
+  */
 
   override def mouseReleased {
     Input.removeMouse
