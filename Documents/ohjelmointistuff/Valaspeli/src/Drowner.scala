@@ -20,7 +20,7 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) {
   def draw = P.image(image ,getX, getY)
   
   def move()= {
-    if (!interLapsWithWhale) {
+    if (!interLapsWithWhale || !isSaved) {
       yCoord = cos(cosVal).toFloat * 15.0f + 270f
       cosVal = cosVal + 0.01f * 5f
 
@@ -32,6 +32,9 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) {
         xCoord -= 0.5f
       }
       draw
+    } else {
+      yCoord -= 10
+      draw
     }
   }
   
@@ -42,10 +45,6 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) {
       isSaved = true
     }
     isSaved
-  }
-  
-  def getSaved = {
-    
   }
   
   

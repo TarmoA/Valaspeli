@@ -63,6 +63,7 @@ override def draw() {
   image(Whale.img, Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
   this.tick()
   k.move()
+  d.move()
   }
   
 }
