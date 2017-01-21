@@ -2,9 +2,9 @@ import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
-//import scala.swing.event.MousePressed
 import scala.math._
 import processing.event.KeyEvent
+import scala.collection.mutable.Buffer
 
 class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
@@ -17,9 +17,11 @@ class ScalaProcessingExample extends PApplet {
   var radar = new Radar(this, Whale.position.x, Whale.position.y)
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
+  var powerups = Buffer[Powerup]()
+  
   override def setup() = {
     frameRate(120)
-
+    addPowerups(5)
   }
 
   override def settings() {
@@ -56,16 +58,16 @@ class ScalaProcessingExample extends PApplet {
 
       popMatrix()
     } else if(state == STATE.MENU){
-      println("menu")
       image(menu, Menu.x, Menu.y) 
     }
     
   }
+  
 
   def drawBackground = {
 
     background(135, 206, 250);
-
+    strokeWeight(1)
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
     beginShape();
@@ -95,13 +97,23 @@ class ScalaProcessingExample extends PApplet {
     endShape(PConstants.CLOSE);
   }
   
+  def addPowerups(i: Int) = {
+	  for(a <- 0 until i)
+		  powerups += new Powerup(this, a*225 + Random.nextInt(225), 570 + Random.nextInt(20))
+  }
+  
   def setState(s: STATE.Value) = state = s
 
   def tick() = {
-    if(radar.isOn) radar.update()
+    if(radar.circles.size > 0){
+    	powerups.foreach(_.checkCollision(radar.circles(0)))
+      radar.update()
+    }
+    powerups.foreach(_.display)      
     Whale.tick(1)
     input.update(mouseX, mouseY)
   }
+  
   var thread = new Thread {
     override def run() = {
       var counter = 0
