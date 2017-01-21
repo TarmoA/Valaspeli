@@ -21,7 +21,5 @@ class Radar(p: PApplet, var x: Float, var y: Float){
     if(counter % 20 == 0) circles += new Circle(p, x, y)
     circles.foreach(_.update)
     circles = circles.filter(_.radius < 400)
-  }
-  
-  
+  }    
 }

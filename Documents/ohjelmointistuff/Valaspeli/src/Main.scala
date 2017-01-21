@@ -6,6 +6,7 @@ import scala.math._
 import scala.math._
 import processing.event.KeyEvent
 import scala.collection.mutable.Buffer
+import java.awt.Rectangle
 
 class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
@@ -33,7 +34,7 @@ class ScalaProcessingExample extends PApplet {
   
   override def setup() = {
     frameRate(120)
-
+    addPowerups(5)
   }
 
   override def settings() {
@@ -67,13 +68,13 @@ class ScalaProcessingExample extends PApplet {
         image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
         popMatrix()
       }
-
       popMatrix()
+      fill(0,255,0)
+      this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
     } else if(state == STATE.MENU){
-      println("menu")
       image(menu, Menu.x, Menu.y) 
     }
-    this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
+    
     b.move()
     d.move()
     t.move()
@@ -92,7 +93,7 @@ class ScalaProcessingExample extends PApplet {
   def drawBackground = {
 
     background(135, 206, 250);
-
+    strokeWeight(1)
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
     beginShape();
