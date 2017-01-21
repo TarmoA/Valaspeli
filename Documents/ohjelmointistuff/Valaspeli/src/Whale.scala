@@ -28,6 +28,7 @@ object Whale extends PApplet {
   var desired_velocity: PVector = _
   var score = 0
   var old_pos = position
+  
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)
     //println("pos: " + position)
@@ -60,7 +61,6 @@ object Whale extends PApplet {
   }
   
   def bounds(): Rectangle2D = new Rectangle(Whale.position.x.toInt, Whale.position.y.toInt, Whale.img.width,Whale.img.height )
-  
   
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score

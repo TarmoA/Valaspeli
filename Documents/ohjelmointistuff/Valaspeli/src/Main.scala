@@ -9,6 +9,7 @@ class ScalaProcessingExample extends PApplet {
  var yoff = 0.0f;
  val k = new Barrel(this, 400, true)
  val d = new Drowner(this, 200, false)
+ val radar = new Radar(this, 100, 100)
  
  override def setup() {
    //frameRate(15)
@@ -21,6 +22,7 @@ class ScalaProcessingExample extends PApplet {
   def tick() = {
     Whale.tick(1)
     Input.update(mouseX, mouseY)
+    if(radar.isOn) radar.update()
   }
   
   override def mousePressed {
@@ -34,8 +36,8 @@ class ScalaProcessingExample extends PApplet {
   
 override def draw() {
   background(0);
-  
   fill(194, 223, 255);
+  
   // We are going to draw a polygon out of the wave points
   beginShape(); 
   
@@ -64,6 +66,11 @@ override def draw() {
   this.tick()
   k.move()
   }
+
+override def keyPressed() {
+	if(key == 'e' || key == 'E')
+		radar.useRadar(Whale.position.x, Whale.position.y)
+}
   
 }
 
