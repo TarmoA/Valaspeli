@@ -5,15 +5,18 @@ import scala.util.Random
 import scala.math._
 //import scala.swing.event.MousePressed
 import scala.math._
+import processing.event.KeyEvent
 
 class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
+  sketchFile("Other/Play.png")
   var running = true
+  val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
-  var state = STATE.GAME
+  var state = STATE.MENU
   var img = loadImage("Map/SeaBed.png")
-
+  var menu = loadImage("Other/Play.png")
   override def setup() = {
     frameRate(120)
 
@@ -24,32 +27,38 @@ class ScalaProcessingExample extends PApplet {
   }
 
   override def draw() {
-    tick
     drawBackground
-    image(img, 0,480)
-    pushMatrix()
-
-    translate(Whale.position.x, Whale.position.y)
-
-    var angle = 0f
-    if (Whale.dir() == 1) {
-      angle = -PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
-      println(angle.toDegrees)
-    } else {
-      angle = PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
-    }
-    rotate(angle + 90.toRadians)
-    if (Whale.dir() == 1) {
-      image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
-    } else {
+    image(img, 0, 480)
+    if (state == STATE.GAME) {
+      tick
+      
+      
       pushMatrix()
-      scale(1.0f, -1.0f)
-      image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
+
+      translate(Whale.position.x, Whale.position.y)
+
+      var angle = 0f
+      if (Whale.dir() == 1) {
+        angle = -PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+      } else {
+        angle = PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+      }
+      rotate(angle + 90.toRadians)
+      if (Whale.dir() == 1) {
+        image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
+      } else {
+        pushMatrix()
+        scale(1.0f, -1.0f)
+        image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
+        popMatrix()
+      }
+
       popMatrix()
+    } else if(state == STATE.MENU){
+      println("menu")
+      image(menu, Menu.x, Menu.y) 
     }
-
-    popMatrix()
-
+    
   }
 
   def drawBackground = {
@@ -84,11 +93,13 @@ class ScalaProcessingExample extends PApplet {
     vertex(1, height);
     endShape(PConstants.CLOSE);
   }
+  
+  def setState(s: STATE.Value) = state = s
 
   def tick() = {
 
     Whale.tick(1)
-    Input.update(mouseX, mouseY)
+    input.update(mouseX, mouseY)
   }
   var thread = new Thread {
     override def run() = {
@@ -115,16 +126,22 @@ class ScalaProcessingExample extends PApplet {
 
   }
   //  thread.start
+  
+  override def keyPressed(e: KeyEvent){
+    println("d")
+    input.keyPressed(e)
+  }
 
   override def mousePressed {
-    Input.mousePressed(new PVector(mouseX, mouseY))
+    input.mousePressed(new PVector(mouseX, mouseY))
   }
 
   override def mouseReleased {
-    Input.removeMouse
+    input.removeMouse
   }
 
 }
+
 
 object ScalaProcessingExample {
   def main(args: Array[String]) {

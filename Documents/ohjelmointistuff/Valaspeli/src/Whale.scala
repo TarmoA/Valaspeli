@@ -20,7 +20,7 @@ object Whale extends PApplet with Actor {
   var clipped_speed: Float = _
   var distance: Float = _
   var position = new PVector(x, y)
-  var max_speed = 10.0f
+  var max_speed = 1.0f
   var velocity = new PVector(0, 0)
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
@@ -83,6 +83,10 @@ object Whale extends PApplet with Actor {
 
   }
 
+  def getNormal = {
+    sub(target, position).rotate(math.Pi.toFloat / 2f)
+  }
+  
   def getBounds = bounds
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
