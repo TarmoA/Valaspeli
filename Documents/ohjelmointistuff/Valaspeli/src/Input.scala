@@ -1,20 +1,25 @@
 
 import java.awt.Event._
-import java.awt.event.KeyEvent
+
 import processing.event.MouseEvent._
 import processing.core.PApplet
 import processing.core.PVector
+import processing.event.KeyEvent
 
-object Input{
+class Input(m: ScalaProcessingExample){
   var seek = false
   var loc = new PVector(0,0)
   def keyPressed (e: KeyEvent)= {
-     if (e.getKeyCode() == KeyEvent.VK_D) seek = true
+     if (e.getKey == 'd'){
+      m.state = STATE.GAME
+     }
   }
   
    def mousePressed(location: PVector) = {
      loc = loc
-    
+    if(Menu.inBounds(location.x.toInt, location.y.toInt)){
+      m.state = STATE.GAME
+    }
    seek = true
     
   }
@@ -22,7 +27,7 @@ object Input{
    def removeMouse = {
      
     
-   seek = false
+//   seek = false
     
   }
    
