@@ -32,7 +32,7 @@ class Input(m: ScalaProcessingExample){
    def removeMouse = {
      
     
-//   seek = false
+   seek = false
     
   }
    

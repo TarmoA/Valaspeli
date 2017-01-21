@@ -1,5 +1,6 @@
 import java.awt.Rectangle
 
+
 trait Actor {
   var flag = true
   var health = 100
@@ -10,9 +11,10 @@ trait Actor {
       flag = false
       hitAction(obj)
       obj.hitAction(this)
-      println("hei")
+      true
     } else {
-      flag = true
+      
+      false
     }
   }
   

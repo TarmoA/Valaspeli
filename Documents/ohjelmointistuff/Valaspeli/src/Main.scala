@@ -2,6 +2,7 @@ import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
+//import scala.swing.event.MousePressed
 import scala.math._
 import processing.event.KeyEvent
 import scala.collection.mutable.Buffer
@@ -10,6 +11,7 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
+  sketchFile("Other/life.png")
   var running = true
   val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
@@ -19,9 +21,19 @@ class ScalaProcessingExample extends PApplet {
   var menu = loadImage("Other/Play.png")
   var powerups = Buffer[Powerup]()
   
+  
+  var life = loadImage("Other/life.png")
+  life.resize(25, 25)
+  
+  val b = new Barrel(this, 400, true)
+  val d = new Drowner(this, 200, false)
+  val t = new Trash(this, 450, false)
+  
+  
+  
   override def setup() = {
     frameRate(120)
-    addPowerups(5)
+
   }
 
   override def settings() {
@@ -58,16 +70,29 @@ class ScalaProcessingExample extends PApplet {
 
       popMatrix()
     } else if(state == STATE.MENU){
+      println("menu")
       image(menu, Menu.x, Menu.y) 
+    }
+    this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
+    b.move()
+    d.move()
+    t.move()
+    
+    this.textSize(28)
+    this.fill(255, 0, 0)
+    this.text("Lives", 10, 28)
+    var index = 1
+    while( Whale.health - index * 33 > 0) {
+      this.image(life, 55 + index * 25, 7)
+      index += 1
     }
     
   }
-  
 
   def drawBackground = {
 
     background(135, 206, 250);
-    strokeWeight(1)
+
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
     beginShape();
@@ -97,23 +122,22 @@ class ScalaProcessingExample extends PApplet {
     endShape(PConstants.CLOSE);
   }
   
+  def setState(s: STATE.Value) = state = s
+  
   def addPowerups(i: Int) = {
 	  for(a <- 0 until i)
 		  powerups += new Powerup(this, a*225 + Random.nextInt(225), 570 + Random.nextInt(20))
-  }
-  
-  def setState(s: STATE.Value) = state = s
+  }  
 
   def tick() = {
     if(radar.circles.size > 0){
     	powerups.foreach(_.checkCollision(radar.circles(0)))
       radar.update()
     }
-    powerups.foreach(_.display)      
+    powerups.foreach(_.display) 
     Whale.tick(1)
     input.update(mouseX, mouseY)
   }
-  
   var thread = new Thread {
     override def run() = {
       var counter = 0

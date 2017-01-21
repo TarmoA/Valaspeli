@@ -23,8 +23,7 @@ object Whale extends PApplet with Actor {
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
   var score = 0
-  var bounds = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
-  
+
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)
     target_offset = position.sub(target)
@@ -74,6 +73,7 @@ object Whale extends PApplet with Actor {
   def sub(v: PVector, v2: PVector) = {
     new PVector(v2.x - v.x, v2.y - v.y)
   }
+  
   def moveTo(location: PVector) = {
     target = location
     var offset = sub(location, position).normalize()
@@ -86,7 +86,7 @@ object Whale extends PApplet with Actor {
     sub(target, position).rotate(math.Pi.toFloat / 2f)
   }
   
-  def getBounds = bounds
+  def getBounds = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
 }
