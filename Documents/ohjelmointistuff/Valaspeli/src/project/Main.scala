@@ -17,11 +17,12 @@ override def settings() {
 }
   
 override def keyPressed: Unit = {
-    if ( keyCode == VK_LEFT) squirtVector.rotate(-0.1.toFloat)
-    if ( keyCode == VK_RIGHT) squirtVector.rotate(0.1.toFloat)
+    if ( keyCode == VK_LEFT) squirtHeight.rotate(-0.1.toFloat)
+    if ( keyCode == VK_RIGHT) squirtHeight.rotate(0.1.toFloat)
   }
 
-val squirtVector = new PVector(-20,0)
+val squirtHeight = new PVector(0,-80)
+val squirtWidth = new PVector(-20,0)
 var squirts = Buffer[Squirt]() 
 override def draw() {
   
@@ -53,7 +54,7 @@ override def draw() {
   endShape(PConstants.CLOSE);
 
   if (mousePressed) {
-    val squirt = new Squirt(this,new PVector(mouseX+10,mouseY), squirtVector.copy)
+    val squirt = new Squirt(this,new PVector(mouseX+10,mouseY), squirtHeight.copy, squirtWidth)
     squirts += squirt
   }
   squirts.foreach(_.run)

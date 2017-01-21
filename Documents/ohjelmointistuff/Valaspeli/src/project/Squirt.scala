@@ -2,11 +2,11 @@ import scala.collection.mutable.Buffer
 import processing.core._
 import scala.math._
 
-class Squirt(p: PApplet, position: PVector, direction: PVector) {
+class Squirt(p: PApplet, position: PVector, height: PVector, width: PVector) {
   
-  def straightDir = direction.copy.rotate((Pi/2).toFloat)
+  //def straightDir = direction.copy.rotate((Pi/2).toFloat)
   
-  var lifeTime = 45
+  var lifeTime = 30
   def isDead = lifeTime <= 0
   
   var particles = Buffer[Particle]()
@@ -21,7 +21,7 @@ class Squirt(p: PApplet, position: PVector, direction: PVector) {
   
   def mkParticle(amount: Int) = {
     for (int <- 1 to amount) {
-      val particle = new Particle(p,new PVector(position.x + straightDir.x,position.y + straightDir.y),new PVector(p.random(-3,3),p.random(-15,-20)), new PVector(0,p.random(1,4)))
+      val particle = new Particle(p,new PVector(position.x - 10,position.y - 60),new PVector(p.random(-2,2),p.random(-10,-15)), new PVector(0,p.random(1,2)))
       particles += particle
     }
   }
@@ -33,11 +33,14 @@ class Squirt(p: PApplet, position: PVector, direction: PVector) {
   lifeTime -= 1
   }
   var calcPos = position.copy 
-  val coords = Array[Float](position.x, position.y,
-         calcPos.add(direction).x, calcPos.y,
-         calcPos.add(direction.rotate((Pi/2).toFloat)).add(direction).add(direction).add(direction).x,calcPos.y,
-         calcPos.add(direction.rotate((Pi/2).toFloat)).x,calcPos.y
-         )
+ /* val coords = Array[Float](position.x, position.y,
+         calcPos.add(height).x, calcPos.y,
+         calcPos.add(width).x,calcPos.y,
+         calcPos.sub(height).x,calcPos.y
+         )*/
+         
+         
+  val rect = (position.x, position.y,width.x, height.y)
   
   def display = {
     /*p.quad(position.x,   position.y, 
@@ -46,7 +49,8 @@ class Squirt(p: PApplet, position: PVector, direction: PVector) {
         position.x -5, position.y-100
   )*/
   
-  p.quad(coords(0),coords(1),coords(2),coords(3),coords(4),coords(5),coords(6),coords(7))
+  p.rect(position.x, position.y,width.x, height.y)
+  //p.quad(coords(0),coords(1),coords(2),coords(3),coords(4),coords(5),coords(6),coords(7))
   }
   
 
