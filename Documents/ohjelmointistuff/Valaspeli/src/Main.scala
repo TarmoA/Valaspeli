@@ -5,11 +5,15 @@ import scala.util.Random
 import scala.math._
 //import scala.swing.event.MousePressed
 import scala.math._
+
 class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
+  sketchFile("Map/SeaBed.png")
   var running = true
   var yoff = 0.0f; // 2nd dimension of perlin noise
   var state = STATE.GAME
+  var img = loadImage("Map/SeaBed.png")
+
   override def setup() = {
     frameRate(120)
 
@@ -22,10 +26,28 @@ class ScalaProcessingExample extends PApplet {
   override def draw() {
     tick
     drawBackground
+    image(img, 0,480)
     pushMatrix()
-    
-    rotate(math.Pi.toFloat / 3.0f)
-    image(Whale.img, Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
+
+    translate(Whale.position.x, Whale.position.y)
+
+    var angle = 0f
+    if (Whale.dir() == 1) {
+      angle = -PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+      println(angle.toDegrees)
+    } else {
+      angle = PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+    }
+    rotate(angle + 90.toRadians)
+    if (Whale.dir() == 1) {
+      image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
+    } else {
+      pushMatrix()
+      scale(1.0f, -1.0f)
+      image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
+      popMatrix()
+    }
+
     popMatrix()
 
   }

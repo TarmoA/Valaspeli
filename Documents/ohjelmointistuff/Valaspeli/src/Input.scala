@@ -22,7 +22,7 @@ object Input{
    def removeMouse = {
      
     
-   seek = false
+//   seek = false
     
   }
    
