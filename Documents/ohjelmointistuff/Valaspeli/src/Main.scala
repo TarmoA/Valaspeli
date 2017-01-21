@@ -7,8 +7,8 @@ import scala.math._
 class ScalaProcessingExample extends PApplet {
 
  var yoff = 0.0f;
- val k = new Barrel(this, 0, true)
- val t = new Trash(this, 400, true)
+ val k = new Barrel(this, 400, true)
+ val d = new Drowner(this, 200, false)
  
  override def setup() {
    //frameRate(15)
@@ -18,10 +18,23 @@ class ScalaProcessingExample extends PApplet {
    size(1140, 680);
   }
   
+  def tick() = {
+    Whale.tick(1)
+    Input.update(mouseX, mouseY)
+  }
+  
+  override def mousePressed {
+    Input.mousePressed(new PVector(mouseX, mouseY))
+  }
 
+  override def mouseReleased {
+    Input.removeMouse
+  }
+  
+  
 override def draw() {
   background(0);
-
+  
   fill(194, 223, 255);
   // We are going to draw a polygon out of the wave points
   beginShape(); 
@@ -47,13 +60,14 @@ override def draw() {
   endShape(PConstants.CLOSE);
   
   
+  image(Whale.img, Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
+  this.tick()
   k.move()
-  k.draw
-  t.move()
-  t.draw
-}
+  }
   
 }
+
+
 
 object ScalaProcessingExample {
   def main(args: Array[String]) {

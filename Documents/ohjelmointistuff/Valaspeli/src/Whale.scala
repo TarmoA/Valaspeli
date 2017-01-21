@@ -6,12 +6,14 @@ import scala.math.min
 import processing.core.PImage
 import processing.core.PApplet
 import processing.core.PVector
+import java.awt.geom.Rectangle2D
+import java.awt.Rectangle
 
 object Whale extends PApplet {
-  sketchFile("Characters/Whale.png")
+  sketchFile("Whale.png")
   var x = 100
   var y = 600
-  var img = loadImage("Characters/Whale.png")
+  var img = loadImage("Whale.png")
   var isDestroyed = false
   var health = 100
   var timer = new Timer
@@ -48,40 +50,18 @@ object Whale extends PApplet {
     position = old_pos
     //println("pos tick: " + position)
     position = position.add(arrive(target, delta))
-    //println("pos: jälkeen" + position)
-//    if (position.x < 0) {
-//      position.x = 0
-//    }
-//    if (position.y < 0) {
-//      position.y = 0
-//    }
-//    if (position.x > 1140) {
-//      position.x = 1140
-//    }
-//    if (position.y > 640) {
-//      position.y = 640
-//    }
-    //    if(counter > 90000000){
-    //    //println(position)
     counter = 0
-    //    }
     counter += 1
   }
 
   def moveTo(location: PVector) = {
-//        position = location
-//    var old_pos = position
-//    target = location
-//    println(position + ", " + location + ", " + target)
-//    var offset = position.sub(location).normalize()
-//        println(offset)
-//    target = offset.add(offset.mult(2f))
-//    println("Target: " + target)
-//    println("Old pos:" + old_pos)
-//    position = old_pos
     target = location
 
   }
+  
+  def bounds(): Rectangle2D = new Rectangle(Whale.position.x.toInt, Whale.position.y.toInt, Whale.img.width,Whale.img.height )
+  
+  
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
 }
