@@ -2,21 +2,39 @@ import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
+<<<<<<< HEAD
 import scala.collection.mutable.Buffer
 
+=======
+//import scala.swing.event.MousePressed
+import scala.math._
+import processing.event.KeyEvent
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
 
 class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
+  sketchFile("Other/Play.png")
+  sketchFile("Other/Bubble.png")
   var running = true
+  var currentAngle = 0f
+  val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
-  var state = STATE.GAME
+  var state = STATE.MENU
   var img = loadImage("Map/SeaBed.png")
+<<<<<<< HEAD
   
   val k = new Barrel(this, 400, true)
   val d = new Drowner(this, 200, false)
  
   
+=======
+  var menu = loadImage("Other/Play.png")
+  var bubble = loadImage("Other/Bubble.png")
+  var last = new PVector(0, 0)
+  val k = new Barrel(this, 400, true)
+  val d = new Drowner(this, 200, false)
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
   override def setup() = {
     frameRate(120)
 
@@ -29,8 +47,8 @@ class ScalaProcessingExample extends PApplet {
   
 
   override def draw() {
-    tick
     drawBackground
+<<<<<<< HEAD
     image(img, 0,480)
     //image(Whale.img,Whale.position.x,Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
     var squirtAngle = 0f
@@ -55,9 +73,74 @@ class ScalaProcessingExample extends PApplet {
       pushMatrix()
       scale(1.0f, -1.0f)
       image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
-      popMatrix()
-    }
+=======
+    image(img, 0, 480)
+    if (state == STATE.GAME) {
+      tick
 
+      pushMatrix()
+
+      translate(Whale.position.x, Whale.position.y)
+
+      var angle = 0f
+      var delt = 0f
+
+      //      var v = Whale.normalize(Whale.velocity).mult(8)
+      var v = new PVector(0, 0)
+      println(Whale.desired_velocity)
+      var d = PVector.angleBetween(v, new PVector(1, 0))
+      line(Whale.position.x, Whale.position.y, Whale.position.x + v.x, Whale.position.y + v.y)
+
+      if (Whale.dir() == 1) {
+        angle = -PVector.angleBetween(Whale.sub(Whale.position, new PVector(mouseX, mouseY)), new PVector(0, 1))
+      } else {
+        angle = PVector.angleBetween(Whale.sub(Whale.position, new PVector(mouseX, mouseY)), new PVector(0, 1))
+      }
+
+      var sign = {
+        if (angle < 0) {
+          -1
+        } else {
+          1
+        }
+      }
+      println("d: " + d.toDegrees)
+      println("angle: " + angle.toDegrees)
+      //      currentAngle = angle
+      var squirtAngle = 0f
+      var lookAngle = 0f
+      var distance = abs(angle - d)
+      if (distance >= Whale.max_turn) { //||(angle > d - 1.toRadians && angle < d + 1.toRadians)) {
+        currentAngle += Whale.max_turn
+      } else {
+        currentAngle = d
+      }
+      //      println("max: " + Whale.max_turn + "angle: " + angle)
+      //      angle = abs(min(abs(Whale.max_turn), abs(angle)))// + 90.toRadians
+      //      println("Väli: " + angle)
+      //      angle = angle*sign
+      //      println("Hei: " + angle)
+
+      rotate(angle + 90.toRadians)
+      val loc = -60
+      if (Whale.dir() == 1) {
+        image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
+        squirtAngle = angle + 90.toRadians
+      } else {
+        pushMatrix()
+        scale(1.0f, -1.0f)
+        image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
+        squirtAngle = angle - 90.toRadians
+        popMatrix()
+      }
+      lookAngle = angle + Pi.toFloat
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
+      popMatrix()
+      Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
+      squirtHandler.update(squirtAngle, lookAngle)
+    } else if (state == STATE.MENU) {
+
+<<<<<<< HEAD
     popMatrix()
     
     
@@ -71,6 +154,13 @@ class ScalaProcessingExample extends PApplet {
   }
   val squirtHandler = new SquirtHandler(this)
   
+=======
+      image(menu, Menu.x, Menu.y)
+    }
+
+  }
+  val squirtHandler = new SquirtHandler(this)
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
 
   def drawBackground = {
 
@@ -105,11 +195,16 @@ class ScalaProcessingExample extends PApplet {
     endShape(PConstants.CLOSE);
   }
 
+  def setState(s: STATE.Value) = state = s
+
+<<<<<<< HEAD
+
+=======
   def tick() = {
-
-
+    Bubbles.bubbles.foreach { x => x.tick(1f) }
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
     Whale.tick(1)
-    Input.update(mouseX, mouseY)
+    input.update(mouseX, mouseY)
   }
   var thread = new Thread {
     override def run() = {
@@ -137,14 +232,24 @@ class ScalaProcessingExample extends PApplet {
   }
   //  thread.start
 
+<<<<<<< HEAD
   /*override def mousePressed {
     Input.mousePressed(new PVector(mouseX, mouseY))
+=======
+  override def keyPressed(e: KeyEvent) {
+    println("d")
+    input.keyPressed(e)
+  }
+
+  override def mousePressed {
+    input.mousePressed(new PVector(mouseX, mouseY))
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
   }
   * 
   */
 
   override def mouseReleased {
-    Input.removeMouse
+    input.removeMouse
   }
   
   override def keyPressed {

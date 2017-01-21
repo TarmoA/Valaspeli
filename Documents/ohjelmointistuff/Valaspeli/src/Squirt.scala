@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
 import scala.collection.mutable.Buffer
 import processing.core._
 import scala.math._
@@ -32,7 +36,11 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   }
   
   
+<<<<<<< HEAD
   val offSet = new PVector(0,-90)
+=======
+  val offSet = new PVector(-90,0)
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
   
   def mkParticle(amount: Int) = {
     for (int <- 1 to amount) {
@@ -135,6 +143,10 @@ class SquirtHandler(p:PApplet) {
       squirtAngle = sqAngle
       squirtOffsetAngle = lkAngle
       }
+<<<<<<< HEAD
   }
 
 
+=======
+  }
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd

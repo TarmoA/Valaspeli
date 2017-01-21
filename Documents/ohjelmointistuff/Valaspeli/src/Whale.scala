@@ -2,7 +2,7 @@
 
 import java.util.Timer
 
-import scala.math.min
+import scala.math._
 import processing.core.PImage
 import processing.core.PApplet
 import processing.core.PVector
@@ -11,6 +11,7 @@ import java.awt.Rectangle
 
 object Whale extends PApplet with Actor {
   sketchFile("Characters/Whale.png")
+  var max_turn = 2.toRadians.toFloat
   var x = 100
   var y = 600
   var img = loadImage("Characters/Whale.png")
@@ -76,7 +77,7 @@ object Whale extends PApplet with Actor {
    def tick(delta: Float) = {
 
     if (!isDestroyed) {
-      
+
       position = position.add(arrive(target, delta))
     }
     if (position.x < 0) {
@@ -113,6 +114,7 @@ object Whale extends PApplet with Actor {
   def sub(v: PVector, v2: PVector) = {
     new PVector(v2.x - v.x, v2.y - v.y)
   }
+<<<<<<< HEAD
   
   def getBounds = bounds
   
@@ -132,5 +134,35 @@ object Whale extends PApplet with Actor {
 
   }
 
+=======
+
+  def normalize(v: PVector) = {
+    new PVector(v.x / length(v), v.y / length(v))
+  }
+
+  def length(v: PVector) = {
+    sqrt(pow(v.x, 2) + pow(v.y, 2)).toFloat
+  }
+
+  def moveTo(location: PVector) = {
+    target = location
+    var offset = sub(location, position).normalize()
+    target = location.add(offset.mult(60f))
+    target = location
+
+  }
+
+  def turn(amount: Float, v: PVector) = {
+    var t = min(max_turn, amount).toFloat
+    v.rotate(t)
+  }
+
+  def getNormal = {
+    sub(target, position).rotate(math.Pi.toFloat / 2f)
+  }
+
+  def getBounds = bounds
+
+>>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
 }
