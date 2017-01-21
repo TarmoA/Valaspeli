@@ -25,60 +25,47 @@ object Whale extends PApplet {
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
   var score = 0
-  var old_pos = position
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)
-    //println("pos: " + position)
     target_offset = position.sub(target)
-    //println("off:" + target_offset)
-    if(target_offset !=0){
-    distance = target_offset.mag()
+    if (target_offset != 0) {
+      distance = target_offset.mag()
     }
     var slow_distance = 150.0f
     var ramped_speed = max_speed * (distance / 150.0f)
     clipped_speed = min(ramped_speed, max_speed)
     desired_velocity = target_offset.mult(clipped_speed / distance)
-    //println("des: " + desired_velocity)
+    //println("des: " + )
     var steering = velocity.sub(desired_velocity)
     //println("Steering: " + steering)
     steering
   }
-  var counter = 0
+  
   def tick(delta: Float) = {
-    position = old_pos
-    //println("pos tick: " + position)
     position = position.add(arrive(target, delta))
-    //println("pos: jälkeen" + position)
-//    if (position.x < 0) {
-//      position.x = 0
-//    }
-//    if (position.y < 0) {
-//      position.y = 0
-//    }
-//    if (position.x > 1140) {
-//      position.x = 1140
-//    }
-//    if (position.y > 640) {
-//      position.y = 640
-//    }
-    //    if(counter > 90000000){
-    //    //println(position)
-    counter = 0
-    //    }
-    counter += 1
+        if (position.x < 0) {
+          position.x = 0
+        }
+        if (position.y < 0) {
+          position.y = 0
+        }
+        if (position.x > 1080) {
+          position.x = 1080
+        }
+        if (position.y > 640) {
+          position.y = 640
+        }
+        
+   
   }
 
   def moveTo(location: PVector) = {
-//        position = location
-//    var old_pos = position
-//    target = location
-//    println(position + ", " + location + ", " + target)
-//    var offset = position.sub(location).normalize()
-//        println(offset)
-//    target = offset.add(offset.mult(2f))
-//    println("Target: " + target)
-//    println("Old pos:" + old_pos)
-//    position = old_pos
+    target = location
+     def sub(v: PVector, v2: PVector) = {
+      new PVector(v2.x - v.x, v2.y-v.y)
+    }
+    var offset = sub(location, position).normalize()
+    target = location.add(offset.mult(100f))
     target = location
 
   }
