@@ -2,8 +2,6 @@ import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
-import scala.collection.mutable.Buffer
-
 //import scala.swing.event.MousePressed
 import scala.math._
 import processing.event.KeyEvent
@@ -16,13 +14,15 @@ class ScalaProcessingExample extends PApplet {
   val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
   var state = STATE.MENU
+  var radar = new Radar(this, Whale.position.x, Whale.position.y)
   var img = loadImage("Map/SeaBed.png")
+  var menu = loadImage("Other/Play.png")
   
-  val k = new Barrel(this, 400, true)
+  val b = new Barrel(this, 400, true)
   val d = new Drowner(this, 200, false)
   
   
-  var menu = loadImage("Other/Play.png")
+  
   override def setup() = {
     frameRate(120)
 
@@ -31,13 +31,10 @@ class ScalaProcessingExample extends PApplet {
   override def settings() {
     size(1140, 680);
   }
-  
-  
 
   override def draw() {
     drawBackground
     image(img, 0, 480)
-    
     if (state == STATE.GAME) {
       tick
       
@@ -69,43 +66,11 @@ class ScalaProcessingExample extends PApplet {
       image(menu, Menu.x, Menu.y) 
     }
     
-   //this.rect(Whale.position.x, Whale.position.y, Whale.img.width, Whale.img.height)
-    k.move
-    d.move
-    squirtHandler.update
-
-  }
-  
-  
-  val squirtHandler = new SquirtHandler(this)
-
-  class SquirtHandler(p: PApplet) {
-
-    val squirtHeight = new PVector(0, -80)
-    val squirtWidth = new PVector(-20, 0)
-    var squirts = Buffer[Squirt]()
-    def timeNow = System.currentTimeMillis() / 1000
-    var lastSquirt = 0L
-    val timeBetweenSquirts = 1
-
-    def squirt = {
-      if (timeNow >= lastSquirt + timeBetweenSquirts) {
-        val squirt = new Squirt(p, Whale.position, squirtHeight.copy, squirtWidth.copy)
-        squirts += squirt
-        lastSquirt = timeNow
-      }
-    }
-
-    def update = {
-      squirts.foreach(_.run)
-      squirts = squirts.filter(!_.isDead)
-    }
+    b.move()
+    d.move()
+    
   }
 
-  
-  
-  
-  
   def drawBackground = {
 
     background(135, 206, 250);
@@ -138,11 +103,11 @@ class ScalaProcessingExample extends PApplet {
     vertex(1, height);
     endShape(PConstants.CLOSE);
   }
-
+  
   def setState(s: STATE.Value) = state = s
 
   def tick() = {
-
+    if(radar.isOn) radar.update()
     Whale.tick(1)
     input.update(mouseX, mouseY)
   }
@@ -171,9 +136,8 @@ class ScalaProcessingExample extends PApplet {
 
   }
   //  thread.start
-
-  override def keyPressed(e: KeyEvent) {
-    println("d")
+  
+  override def keyPressed(e: KeyEvent){
     input.keyPressed(e)
   }
 
@@ -185,12 +149,8 @@ class ScalaProcessingExample extends PApplet {
     input.removeMouse
   }
 
-  override def keyPressed {
-    if (keyCode == 'A') squirtHandler.squirt
-
-  }
-
 }
+
 
 object ScalaProcessingExample {
   def main(args: Array[String]) {
