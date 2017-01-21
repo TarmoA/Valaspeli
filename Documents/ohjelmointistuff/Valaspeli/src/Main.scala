@@ -33,23 +33,28 @@ class ScalaProcessingExample extends PApplet {
     drawBackground
     image(img, 0,480)
     //image(Whale.img,Whale.position.x,Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
-    
+    var squirtAngle = 0f
+    var lookAngle = 0f
     pushMatrix()
      translate(Whale.position.x, Whale.position.y)
     var angle = 0f
     if (Whale.dir() == 1) {
       angle = -PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
       println(angle.toDegrees)
+      squirtAngle = angle + 90.toRadians
     } else {
       angle = PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
-    }
+      squirtAngle = angle - 90.toRadians
+    } 
+    lookAngle = angle + Pi.toFloat
+    
     rotate(angle + 90.toRadians)
     if (Whale.dir() == 1) {
       image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
     } else {
       pushMatrix()
       scale(1.0f, -1.0f)
-      image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
+      image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
       popMatrix()
     }
 
@@ -61,32 +66,11 @@ class ScalaProcessingExample extends PApplet {
     
     k.move
     d.move
-    squirtHandler.update
+    squirtHandler.update(squirtAngle, lookAngle)
 
   }
   val squirtHandler = new SquirtHandler(this)
-  class SquirtHandler(p:PApplet) {
-    
-  val squirtHeight = new PVector(0,-80)
-  val squirtWidth = new PVector(-20,0)
-  var squirts = Buffer[Squirt]() 
-  def timeNow = System.currentTimeMillis() / 1000
-  var lastSquirt = 0L
-  val timeBetweenSquirts = 1
   
-  def squirt = {
-    if (timeNow >= lastSquirt + timeBetweenSquirts) {
-      val squirt = new Squirt(p,Whale.position, squirtHeight.copy, squirtWidth.copy)
-      squirts += squirt
-      lastSquirt = timeNow
-    }
-  }
-  
-  def update = {
-    squirts.foreach(_.run)
-    squirts = squirts.filter(!_.isDead)
-    }
-  }
 
   def drawBackground = {
 

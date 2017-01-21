@@ -116,6 +116,7 @@ object Whale extends PApplet with Actor {
   
   def getBounds = bounds
   
+
   def moveTo(location: PVector) = {
 //        position = location
 //    var old_pos = position
