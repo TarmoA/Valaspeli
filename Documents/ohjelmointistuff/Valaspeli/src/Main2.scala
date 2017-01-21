@@ -1,4 +1,4 @@
-
+/*
 import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
@@ -12,20 +12,20 @@ class ScalaProcessingExample extends PApplet {
 
  var yoff = 0.0f;        // 2nd dimension of perlin noise
 
-override def settings() {
-   size(1140, 680);
-}
-  
-override def keyPressed: Unit = {
-    if ( keyCode == VK_LEFT) squirtHeight.rotate(-0.1.toFloat)
-    if ( keyCode == VK_RIGHT) squirtHeight.rotate(0.1.toFloat)
+  override def settings() {
+     size(1140, 680);
   }
-
-val squirtHeight = new PVector(0,-80)
-val squirtWidth = new PVector(-20,0)
-var squirts = Buffer[Squirt]() 
-override def draw() {
+    
+  override def keyPressed: Unit = {
+      if ( keyCode == VK_LEFT) squirtHeight.rotate(-0.1.toFloat)
+      if ( keyCode == VK_RIGHT) squirtHeight.rotate(0.1.toFloat)
+    }
   
+  val squirtHeight = new PVector(0,-80)
+  val squirtWidth = new PVector(-20,0)
+  var squirts = Buffer[Squirt]() 
+  override def draw() {
+    
   
   background(0);
 
@@ -73,4 +73,4 @@ object ScalaProcessingExample {
   def main(args: Array[String]) {
     PApplet.main(Array[String]("ScalaProcessingExample"))
   }
-}
+}*/
