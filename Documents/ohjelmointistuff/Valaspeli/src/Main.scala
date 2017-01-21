@@ -2,8 +2,6 @@ import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
-//import scala.swing.event.MousePressed
-import scala.math._
 import processing.event.KeyEvent
 import scala.collection.mutable.Buffer
 import java.awt.Rectangle
