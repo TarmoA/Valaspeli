@@ -7,7 +7,8 @@ import scala.math._
 class ScalaProcessingExample extends PApplet {
 
  var yoff = 0.0f;
- val k = new Barrel(this, 0, true)// 2nd dimension of perlin noise
+ val k = new Barrel(this, 0, true)
+ val t = new Trash(this, 400, true)
  
  override def setup() {
    //frameRate(15)
@@ -48,6 +49,8 @@ override def draw() {
   
   k.move()
   k.draw
+  t.move()
+  t.draw
 }
   
 }
