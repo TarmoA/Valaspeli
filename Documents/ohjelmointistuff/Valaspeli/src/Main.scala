@@ -12,11 +12,13 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
   var running = true
+  var currentAngle = 0f
   val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
   var state = STATE.MENU
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
+  var last = new PVector(0, 0)
   override def setup() = {
     frameRate(120)
 
@@ -31,34 +33,64 @@ class ScalaProcessingExample extends PApplet {
     image(img, 0, 480)
     if (state == STATE.GAME) {
       tick
-      
-      
+
       pushMatrix()
 
       translate(Whale.position.x, Whale.position.y)
 
       var angle = 0f
+      var delt = 0f
+
+//      var v = Whale.normalize(Whale.velocity).mult(8)
+      var v = new PVector(0,0)
+      println(Whale.desired_velocity)
+      var d = PVector.angleBetween(v, new PVector(1, 0))
+      line(Whale.position.x, Whale.position.y, Whale.position.x + v.x, Whale.position.y + v.y)
+
       if (Whale.dir() == 1) {
-        angle = -PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+        angle = -PVector.angleBetween(Whale.sub(Whale.position, new PVector(mouseX, mouseY)), new PVector(0, 1))
       } else {
-        angle = PVector.angleBetween(Whale.sub(Whale.position, Whale.target), new PVector(0, 1))
+        angle = PVector.angleBetween(Whale.sub(Whale.position, new PVector(mouseX, mouseY)), new PVector(0, 1))
       }
+
+      var sign = {
+        if (angle < 0) {
+          -1
+        } else {
+          1
+        }
+      }
+      println("d: " + d.toDegrees)
+      println("angle: " + angle.toDegrees)
+      //      currentAngle = angle
+      var distance = abs(angle - d)
+      if (distance >= Whale.max_turn) { //||(angle > d - 1.toRadians && angle < d + 1.toRadians)) {
+        currentAngle += Whale.max_turn
+      } else {
+        currentAngle = d
+      }
+      //      println("max: " + Whale.max_turn + "angle: " + angle)
+      //      angle = abs(min(abs(Whale.max_turn), abs(angle)))// + 90.toRadians
+      //      println("Väli: " + angle)
+      //      angle = angle*sign
+      //      println("Hei: " + angle)
+
       rotate(angle + 90.toRadians)
+
       if (Whale.dir() == 1) {
         image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
       } else {
         pushMatrix()
         scale(1.0f, -1.0f)
-        image(Whale.img, 0, 0, Whale.img.width / 3, -Whale.img.height / 3)
+        image(Whale.img, 0, 0, Whale.img.width / 3, Whale.img.height / 3)
         popMatrix()
       }
 
       popMatrix()
-    } else if(state == STATE.MENU){
-      println("menu")
-      image(menu, Menu.x, Menu.y) 
+    } else if (state == STATE.MENU) {
+      image(menu, Menu.x, Menu.y)
     }
-    
+
   }
 
   def drawBackground = {
@@ -93,7 +125,7 @@ class ScalaProcessingExample extends PApplet {
     vertex(1, height);
     endShape(PConstants.CLOSE);
   }
-  
+
   def setState(s: STATE.Value) = state = s
 
   def tick() = {
@@ -126,8 +158,8 @@ class ScalaProcessingExample extends PApplet {
 
   }
   //  thread.start
-  
-  override def keyPressed(e: KeyEvent){
+
+  override def keyPressed(e: KeyEvent) {
     println("d")
     input.keyPressed(e)
   }
@@ -141,7 +173,6 @@ class ScalaProcessingExample extends PApplet {
   }
 
 }
-
 
 object ScalaProcessingExample {
   def main(args: Array[String]) {
