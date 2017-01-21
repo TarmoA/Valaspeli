@@ -1,16 +1,22 @@
+
 import processing.core._
 import processing.core.PConstants._
-import scala.util.Random
 import scala.math._
 //import scala.swing.event.MousePressed
 
 class ScalaProcessingExample extends PApplet {
 
- var yoff = 0.0f;        // 2nd dimension of perlin noise
+ var yoff = 0.0f;
+ val k = new Barrel(this, 0, true)
+ val t = new Trash(this, 400, true)
+ 
+ override def setup() {
+   //frameRate(15)
+ }
 
-override def settings() {
+  override def settings() {
    size(1140, 680);
-}
+  }
   
 
 override def draw() {
@@ -24,9 +30,9 @@ override def draw() {
   // float xoff = yoff; // Option #2: 1D Noise
   
   // Iterate over horizontal pixels
-  for (x <- 0 to width by 10) {
+  for (x <- 0 to width by 15) {
     // Calculate a y value according to noise, map to 
-    var y = PApplet.map(noise(xoff, yoff), 0, 1, 200,300) // Option #1: 2D Noise
+    var y = PApplet.map(noise(xoff, yoff), 0, 1, 250,300) // Option #1: 2D Noise
     // float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
     
     // Set the vertex
@@ -39,6 +45,12 @@ override def draw() {
   vertex(width, height);
   vertex(1, height);
   endShape(PConstants.CLOSE);
+  
+  
+  k.move()
+  k.draw
+  t.move()
+  t.draw
 }
   
 }
