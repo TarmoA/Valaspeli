@@ -10,6 +10,11 @@ class ScalaProcessingExample extends PApplet {
   var running = true
   var yoff = 0.0f; // 2nd dimension of perlin noise
   var state = STATE.GAME
+  
+  val k = new Barrel(this, 400, true)
+  val d = new Drowner(this, 200, false)
+ 
+  
   override def setup() = {
     frameRate(120)
 
@@ -29,7 +34,8 @@ class ScalaProcessingExample extends PApplet {
     image(Whale.img,Whale.position.x,Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
     //popMatrix()
     
-        
+    k.move
+    d.move
     squirtHandler.update
 
   }
@@ -39,10 +45,16 @@ class ScalaProcessingExample extends PApplet {
   val squirtHeight = new PVector(0,-80)
   val squirtWidth = new PVector(-20,0)
   var squirts = Buffer[Squirt]() 
+  def timeNow = System.currentTimeMillis() / 1000
+  var lastSquirt = 0L
+  val timeBetweenSquirts = 1
   
   def squirt = {
-    val squirt = new Squirt(p,Whale.position, squirtHeight.copy, squirtWidth.copy)
-    squirts += squirt
+    if (timeNow >= lastSquirt + timeBetweenSquirts) {
+      val squirt = new Squirt(p,Whale.position, squirtHeight.copy, squirtWidth.copy)
+      squirts += squirt
+      lastSquirt = timeNow
+    }
   }
   
   def update = {

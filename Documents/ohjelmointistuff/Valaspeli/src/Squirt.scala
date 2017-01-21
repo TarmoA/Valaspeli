@@ -83,7 +83,6 @@ class Particle(p:PApplet, position: PVector, velocity: PVector, acceleration: PV
   }
   
   def display = {
-    //if (isDead) visible = false
     var color = ""
     if(p.random(0,1)<=0.5)color = "blue" else color = "lightBlue"
     p.stroke(colorMap(color)(0), colorMap(color)(1), colorMap(color)(2))
