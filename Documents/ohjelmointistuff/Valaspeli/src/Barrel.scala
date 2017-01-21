@@ -36,15 +36,15 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) {
     }
   }
   
-  def bounds(): Rectangle2D = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
+  def getBounds(): Rectangle2D = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
   
   
   def interLapsWithWhale = {
-    if (Whale.bounds.intersects(bounds)) {
+    if (Whale.bounds.intersects(getBounds)) {
       isDestroyed = true
     }
     isDestroyed
   }
   
-  
+
 }
