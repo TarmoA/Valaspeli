@@ -43,13 +43,4 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
   def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
   
   
-  
-//  def interLapsWithWhale = {
-//    if (Whale.bounds.intersects(bounds)) {
-//      isSaved = true
-//    }
-//    isSaved
-//  }
-  
-  
 }

@@ -10,6 +10,7 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
+  sketchFile("Other/life.png")
   var running = true
   val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
@@ -18,8 +19,14 @@ class ScalaProcessingExample extends PApplet {
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
   
+  
+  
+  var life = loadImage("Other/life.png")
+  life.resize(25, 25)
+  
   val b = new Barrel(this, 400, true)
   val d = new Drowner(this, 200, false)
+  val t = new Trash(this, 450, false)
   
   
   
@@ -68,6 +75,16 @@ class ScalaProcessingExample extends PApplet {
     this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
     b.move()
     d.move()
+    t.move()
+    
+    this.textSize(28)
+    this.fill(255, 0, 0)
+    this.text("Lives", 10, 28)
+    var index = 1
+    while( Whale.health - index * 33 > 0) {
+      this.image(life, 55 + index * 25, 7)
+      index += 1
+    }
     
   }
 

@@ -39,13 +39,5 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
   
   def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width, this.image.height)
   
-  
-//  def interLapsWithWhale = {
-//    if (Whale.bounds.intersects(getBounds)) {
-//      isDestroyed = true
-//    }
-//    isDestroyed
-//  }
-  
 
 }
