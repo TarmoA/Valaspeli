@@ -1,7 +1,11 @@
+
 import processing.core._
 import processing.core.PConstants._
 import scala.util.Random
 import scala.math._
+import scala.collection.mutable.Buffer
+import java.awt.event.KeyEvent._
+
 //import scala.swing.event.MousePressed
 
 class ScalaProcessingExample extends PApplet {
@@ -12,8 +16,16 @@ override def settings() {
    size(1140, 680);
 }
   
+override def keyPressed: Unit = {
+    if ( keyCode == VK_LEFT) squirtVector.rotate(-0.1.toFloat)
+    if ( keyCode == VK_RIGHT) squirtVector.rotate(0.1.toFloat)
+  }
 
+val squirtVector = new PVector(-20,0)
+var squirts = Buffer[Squirt]() 
 override def draw() {
+  
+  
   background(0);
 
   fill(194, 223, 255);
@@ -39,7 +51,20 @@ override def draw() {
   vertex(width, height);
   vertex(1, height);
   endShape(PConstants.CLOSE);
-}
+
+  if (mousePressed) {
+    val squirt = new Squirt(this,new PVector(mouseX+10,mouseY), squirtVector.copy)
+    squirts += squirt
+  }
+  squirts.foreach(_.run)
+  squirts = squirts.filter(!_.isDead)
+  
+  }
+
+
+
+
+
   
 }
 
