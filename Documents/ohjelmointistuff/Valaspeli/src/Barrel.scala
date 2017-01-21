@@ -5,7 +5,7 @@ import java.awt.Rectangle
 import java.awt.geom.Rectangle2D
 import java.awt.geom.RectangularShape
 
-class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) {
+class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
   P.sketchFile("Barrel.png")
   private val image = P.loadImage("Barrel.png")
   image.resize(35,35)
@@ -13,7 +13,8 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) {
   private var yCoord = 260.0f
   var cosVal = 0.0f
   
-  private var isDestroyed = false
+  damage = 0
+  
   
   def getX = xCoord
   def getY = yCoord
@@ -21,7 +22,7 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) {
   def draw = P.image(image ,getX, getY)
   
   def move()= {
-    if (!interLapsWithWhale) {
+    if (!this.checkCollision(Whale) && flag) {
       yCoord = cos(cosVal).toFloat * 15.0f + 270f
       cosVal = cosVal + 0.01f * 5f
 
@@ -36,15 +37,15 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) {
     }
   }
   
-  def getBounds(): Rectangle2D = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
+  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width, this.image.height)
   
   
-  def interLapsWithWhale = {
-    if (Whale.bounds.intersects(getBounds)) {
-      isDestroyed = true
-    }
-    isDestroyed
-  }
+//  def interLapsWithWhale = {
+//    if (Whale.bounds.intersects(getBounds)) {
+//      isDestroyed = true
+//    }
+//    isDestroyed
+//  }
   
 
 }

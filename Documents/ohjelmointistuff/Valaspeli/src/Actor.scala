@@ -11,9 +11,10 @@ trait Actor {
       flag = false
       hitAction(obj)
       obj.hitAction(this)
-      
+      true
     } else {
-      flag = true
+      
+      false
     }
   }
   

@@ -65,7 +65,7 @@ class ScalaProcessingExample extends PApplet {
       println("menu")
       image(menu, Menu.x, Menu.y) 
     }
-    
+    this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
     b.move()
     d.move()
     
