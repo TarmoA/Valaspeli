@@ -5,8 +5,9 @@ import processing.event.MouseEvent._
 import processing.core.PApplet
 import processing.core.PVector
 import processing.event.KeyEvent
+import scala.math._
 
-class Input(m: ScalaProcessingExample){
+class Input(m: ScalaProcessingExample) {
   var seek = false
   var loc = new PVector(0,0)
   def keyPressed (e: KeyEvent)= {
@@ -37,9 +38,7 @@ class Input(m: ScalaProcessingExample){
    
   
   def update(mousex: Int, mousey: Int) = {
-    
-    if(seek) Whale.moveTo(new PVector(mousex, mousey))
-     
-    
+    if(seek) Whale.moveTo(new PVector(mousex, mousey ) )  
   }
+  
 }
