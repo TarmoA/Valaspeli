@@ -13,6 +13,8 @@ class Input(m: ScalaProcessingExample){
      if (e.getKey == 'd'){
       m.state = STATE.GAME
      }
+     if (e.getKey == 'a') m.squirtHandler.squirt
+      
   }
   
    def mousePressed(location: PVector) = {

@@ -1,3 +1,6 @@
+import processing.core.PApplet
+import java.awt.Rectangle
+
 
 //import processing.core._
 //import scala.math._
@@ -5,8 +8,11 @@
 //import java.awt.geom.Rectangle2D
 //import java.awt.geom.RectangularShape
 //
-//class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
-//  P.sketchFile("Barrel.png")
+class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
+
+  def getBounds = new Rectangle
+  
+  //  P.sketchFile("Barrel.png")
 //  private val image = P.loadImage("Barrel.png")
 //  image.resize(35,35)
 //  private var xCoord = if (fromLeft) 0.0f else 1140
@@ -48,4 +54,4 @@
 ////  }
 //  
 //
-//}
+}

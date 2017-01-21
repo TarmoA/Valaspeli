@@ -21,6 +21,8 @@ class ScalaProcessingExample extends PApplet {
   var menu = loadImage("Other/Play.png")
   var bubble = loadImage("Other/Bubble.png")
   var last = new PVector(0, 0)
+  val k = new Barrel(this, 400, true)
+  val d = new Drowner(this, 200, false)
   override def setup() = {
     frameRate(120)
 
@@ -43,8 +45,8 @@ class ScalaProcessingExample extends PApplet {
       var angle = 0f
       var delt = 0f
 
-//      var v = Whale.normalize(Whale.velocity).mult(8)
-      var v = new PVector(0,0)
+      //      var v = Whale.normalize(Whale.velocity).mult(8)
+      var v = new PVector(0, 0)
       println(Whale.desired_velocity)
       var d = PVector.angleBetween(v, new PVector(1, 0))
       line(Whale.position.x, Whale.position.y, Whale.position.x + v.x, Whale.position.y + v.y)
@@ -65,6 +67,8 @@ class ScalaProcessingExample extends PApplet {
       println("d: " + d.toDegrees)
       println("angle: " + angle.toDegrees)
       //      currentAngle = angle
+      var squirtAngle = 0f
+      var lookAngle = 0f
       var distance = abs(angle - d)
       if (distance >= Whale.max_turn) { //||(angle > d - 1.toRadians && angle < d + 1.toRadians)) {
         currentAngle += Whale.max_turn
@@ -81,21 +85,25 @@ class ScalaProcessingExample extends PApplet {
       val loc = -60
       if (Whale.dir() == 1) {
         image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
+        squirtAngle = angle + 90.toRadians
       } else {
         pushMatrix()
         scale(1.0f, -1.0f)
         image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
+        squirtAngle = angle - 90.toRadians
         popMatrix()
       }
-
+      lookAngle = angle + Pi.toFloat
       popMatrix()
       Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
+      squirtHandler.update(squirtAngle, lookAngle)
     } else if (state == STATE.MENU) {
-      
+
       image(menu, Menu.x, Menu.y)
     }
 
   }
+  val squirtHandler = new SquirtHandler(this)
 
   def drawBackground = {
 
