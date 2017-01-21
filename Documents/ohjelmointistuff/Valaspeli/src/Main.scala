@@ -14,6 +14,7 @@ class ScalaProcessingExample extends PApplet {
   val input = new Input(this)
   var yoff = 0.0f; // 2nd dimension of perlin noise
   var state = STATE.MENU
+  var radar = new Radar(this, Whale.position.x, Whale.position.y)
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
   override def setup() = {
@@ -97,7 +98,7 @@ class ScalaProcessingExample extends PApplet {
   def setState(s: STATE.Value) = state = s
 
   def tick() = {
-
+    if(radar.isOn) radar.update()
     Whale.tick(1)
     input.update(mouseX, mouseY)
   }
@@ -128,7 +129,6 @@ class ScalaProcessingExample extends PApplet {
   //  thread.start
   
   override def keyPressed(e: KeyEvent){
-    println("d")
     input.keyPressed(e)
   }
 

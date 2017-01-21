@@ -12,6 +12,9 @@ class Input(m: ScalaProcessingExample){
   def keyPressed (e: KeyEvent)= {
      if (e.getKey == 'd'){
       m.state = STATE.GAME
+     }else if(e.getKey == 'e'){
+       m.radar.useRadar(Whale.position.x + 100, Whale.position.y + 50)
+       m.radar.isOn = true
      }
   }
   
