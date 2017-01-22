@@ -8,7 +8,7 @@ import java.awt.geom.RectangularShape
 class Trash(P: PApplet, depth: Float, fromLeft: Boolean) extends Actor {
   P.sketchFile("Harpoon.png")
   private val image = P.loadImage("Harpoon.png")
-  image.resize(50,5)
+  image.resize(75,15)
 
   private var xCoord = if (fromLeft) 0.0f else 1140
   private var yCoord = depth
@@ -66,13 +66,5 @@ class Trash(P: PApplet, depth: Float, fromLeft: Boolean) extends Actor {
     Array(this.xCoord, this.yCoord, this.xCoord + 35, this.yCoord, this.xCoord + 35, this.yCoord + 35, 
         this.xCoord, this.yCoord + 35).map(_.toInt)
   }
-  
-  /*Call this for (a,b) and (b,a) to check both ways*/
-  def intersection (a: Array[Int], b: Array[Int]): Boolean = {
-    if (a(0) < b(0) && b(0) < a(2) && a(1) > b(1) && b(1) > a(5)) {
-      true
-    } else false
-  }
-  
   
 }

@@ -20,7 +20,9 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
   def getX = xCoord
   def getY = yCoord
   
-  def draw = P.image(image ,getX, getY)
+  def draw = {
+    P.image(image ,getX, getY)
+  }
   
   def move()= {
     if (!this.checkCollision(Whale) && flag) {

@@ -26,9 +26,8 @@ class ScalaProcessingExample extends PApplet {
   life.resize(25, 25)
 
   val b = new Barrel(this, 400, true)
-  val d = new Drowner(this, 200, false)
-  val t = new Trash(this, 450, false)
-
+  val k = new Drowner(this, 200, false)
+  val t = new Trash(this, 450, true)
 
 
   override def setup() = {
@@ -55,9 +54,12 @@ class ScalaProcessingExample extends PApplet {
         this.image(life, 55 + index * 25, 7)
         index += 1
       }
-
+      
+      this.text("Score " + Whale.score.toString(), this.width - 150, 28)
+      
+      
       b.move()
-      // d.move()
+      k.move()
       t.move()
       
       pushMatrix()

@@ -5,6 +5,7 @@ trait Actor {
   var flag = true
   var health = 100
   var damage = 100
+  var scorePlus = 1000
   def getBounds: Rectangle
   def checkCollision(obj: Actor) = {
     if(obj.getBounds.intersects(this.getBounds) && flag){
@@ -20,7 +21,10 @@ trait Actor {
   
   def hitAction(obj:Actor) = {
     health = health - obj.damage
+    Whale.score += this.scorePlus
   }
   
   def isDestroyed: Boolean = health <= 0
+  
+  def getScore = this.scorePlus
 }
