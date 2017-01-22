@@ -12,6 +12,7 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
   sketchFile("Other/life.png")
+  sketchFile("Other/Sky2.png")
   var running = true
   var currentAngle = 0f
   val input = new Input(this)
@@ -21,6 +22,7 @@ class ScalaProcessingExample extends PApplet {
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
   var bubble = loadImage("Other/Bubble.png")
+  var sky = loadImage("Other/Sky2.png")
   var last = new PVector(0, 0)
   var life = loadImage("Other/life.png")
   life.resize(25, 25)
@@ -138,7 +140,7 @@ class ScalaProcessingExample extends PApplet {
   def drawBackground = {
 
     background(135, 206, 250);
-
+    image(sky,0,0)
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
     beginShape();
