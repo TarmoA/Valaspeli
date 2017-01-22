@@ -28,7 +28,6 @@ class NotHarpoonSpawner(P: ScalaProcessingExample) {
   def tick = {
     if (P.millis() > time + 5 * 1000) {
       if (decide) {
-        println("nyt tulee")
         this.spawnDrowner
       } else {
         this.spawnBarrel

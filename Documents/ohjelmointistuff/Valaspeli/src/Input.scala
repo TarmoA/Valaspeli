@@ -12,11 +12,15 @@ class Input(m: ScalaProcessingExample){
   var loc = new PVector(0,0)
   
   def keyPressed (e: KeyEvent)= {
-     if (e.getKey == 'e'){
+     if (e.getKey == 'd'){
       m.state = STATE.GAME
      }else if(e.getKey == 'e'){
-       m.radar.useRadar(Whale.position.x + 100, Whale.position.y + 50)
-       m.radar.isOn = true
+       if(Whale.dir == 1) 
+         m.radar.useRadar(Whale.position.x + 30, Whale.position.y - 30)
+       else
+         m.radar.useRadar(Whale.position.x - 30, Whale.position.y - 30)
+     }else if(e.getKey == 't'){
+       m.powerups.foreach(_.alpha = 255)
      }
      if (e.getKey == 'a') m.squirtHandler.squirt
       

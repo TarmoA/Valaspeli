@@ -8,9 +8,9 @@ import java.awt.geom.RectangularShape
 class Trash(P: PApplet, depth: Float, fromLeft: Boolean) extends Actor {
   P.sketchFile("Harpoon.png")
   private val image = P.loadImage("Harpoon.png")
+  var xCoord = if (fromLeft) 0.0f else 1140
   image.resize(75,15)
 
-  private var xCoord = if (fromLeft) 0.0f else 1140
   private var yCoord = depth
   var cosVal = 0.0f
 
@@ -44,9 +44,7 @@ class Trash(P: PApplet, depth: Float, fromLeft: Boolean) extends Actor {
     if (xCoord > -10 && xCoord < P.width + 10) {
       P.image(image ,getX, getY)  
     }
-    
   }
-  
 //  def move()= {
 //    yCoord = cos(cosVal).toFloat * 15.0f + depth
 //    cosVal = cosVal + 0.01f * 5f
@@ -65,6 +63,5 @@ class Trash(P: PApplet, depth: Float, fromLeft: Boolean) extends Actor {
   def getHitbox: Array[Int] = {
     Array(this.xCoord, this.yCoord, this.xCoord + 35, this.yCoord, this.xCoord + 35, this.yCoord + 35, 
         this.xCoord, this.yCoord + 35).map(_.toInt)
-  }
-  
+  }  
 }
