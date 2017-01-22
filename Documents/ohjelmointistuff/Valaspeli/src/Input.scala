@@ -9,15 +9,26 @@ import processing.event.KeyEvent
 class Input(m: ScalaProcessingExample){
   var seek = false
   var loc = new PVector(0,0)
+  
   def keyPressed (e: KeyEvent)= {
      if (e.getKey == 'd'){
       m.state = STATE.GAME
      }else if(e.getKey == 'e'){
-       m.radar.useRadar(Whale.position.x + 100, Whale.position.y + 50)
-       m.radar.isOn = true
+       if(Whale.dir == 1) 
+         m.radar.useRadar(Whale.position.x + 30, Whale.position.y - 30)
+       else
+         m.radar.useRadar(Whale.position.x - 30, Whale.position.y - 30)
+         m.radar.isOn = true
      }else if(e.getKey == 't'){
        m.powerups.foreach(_.alpha = 255)
      }
+     if (e.getKey == 'a') m.squirtHandler.squirt
+      
+     if (e.getKey == 'd'){
+      m.state = STATE.GAME
+     }
+     if (e.getKey == 'a') m.squirtHandler.squirt
+      
   }
   
    def mousePressed(location: PVector) = {
@@ -32,7 +43,7 @@ class Input(m: ScalaProcessingExample){
    def removeMouse = {
      
     
-   seek = false
+//   seek = false
     
   }
    
