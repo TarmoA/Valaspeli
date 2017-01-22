@@ -12,6 +12,8 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
   sketchFile("Other/Bubble.png")
+  sketchFile("Other/Sky2.png")
+  var f:PFont = _
   var running = true
   var currentAngle = 0f
   val input = new Input(this)
@@ -20,11 +22,13 @@ class ScalaProcessingExample extends PApplet {
   var img = loadImage("Map/SeaBed.png")
   var menu = loadImage("Other/Play.png")
   var bubble = loadImage("Other/Bubble.png")
+  var sky = loadImage("Other/Sky2.png")
   var last = new PVector(0, 0)
   val k = new Barrel(this, 400, true)
   val d = new Drowner(this, 200, false)
   override def setup() = {
     frameRate(120)
+    f = createFont("Arial",16,true)
 
   }
 
@@ -98,8 +102,11 @@ class ScalaProcessingExample extends PApplet {
       Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
       squirtHandler.update(squirtAngle, lookAngle)
     } else if (state == STATE.MENU) {
-
+      textFont(f, 100)
+      fill(255, 255, 255);
+      
       image(menu, Menu.x, Menu.y)
+      text("Welcome",1140/2 - 240,300)
     }
 
   }
@@ -108,7 +115,7 @@ class ScalaProcessingExample extends PApplet {
   def drawBackground = {
 
     background(135, 206, 250);
-
+    image(sky, 0,0)
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
     beginShape();
