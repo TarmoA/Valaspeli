@@ -36,7 +36,7 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   def getSquirt0Pos = {
   getOffSet
   }
-  
+
   def mkParticle(amount: Int) = {
     for (int <- 1 to amount) {
       val particle = new Particle(p,getSquirt0Pos,getVel, new PVector(0,p.random(0.1f,1f)))
@@ -51,10 +51,7 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   lifeTime -= 1
   }
  
-         
-         
-  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 10, 10)
-//  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 10, 10) 
+  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 50, 150)
 }
 
 class Particle(p:PApplet, position: PVector, velocity: PVector, acceleration: PVector) {
@@ -94,6 +91,7 @@ class SquirtHandler(p:PApplet) {
     val squirtHeight = new PVector(0,-80)
     val squirtWidth = new PVector(-20,0)
     var squirts = Buffer[Squirt]() 
+    def getSquirts = this.squirts
     def timeNow = System.currentTimeMillis() / 1000
     var lastSquirt = 0L
     val timeBetweenSquirts = 1

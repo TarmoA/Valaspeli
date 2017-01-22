@@ -5,14 +5,14 @@ import java.awt.geom.Rectangle2D
 import processing.core.PApplet
 
 
-class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
-  P.sketchFile("Barrel.png")
-  private val image = P.loadImage("Barrel.png")
-  image.resize(35,35)
+class Drowner(P: ScalaProcessingExample, xDestination: Float, fromLeft: Boolean) extends Actor {
+  P.sketchFile("Characters/Raincoat.png")
+  private val image = P.loadImage("Characters/Raincoat.png")
+  image.resize(50,50)
   private var xCoord = if (fromLeft) 0.0f else 1140
   private var yCoord = 260.0f
   private var isSaved = false
-  
+  private var shouldGoUP = false
   damage = 0
   
   var cosVal = 0.0f
@@ -20,73 +20,45 @@ class Drowner(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor 
   def getX = xCoord
   def getY = yCoord
   
-  def draw = P.image(image ,getX, getY)
+  def draw = {
+    P.image(image ,getX, getY)
+  }
   
+  
+  override def hitAction(obj: Actor) = {
+    println("hithit")
+    Whale.score += 100
+    shouldGoUP = true
+  }
+  
+  /*TÄMÄ EI TOIMI*/
   def move()= {
-    if (!this.checkCollision(Whale) && flag) {
-      yCoord = cos(cosVal).toFloat * 15.0f + 260f
-      cosVal = cosVal + 0.01f * 5f
-
-      if (xCoord > xDestination - 1 && xCoord < xDestination + 1) {
-        xCoord = xDestination
-      } else if (fromLeft) {
-        xCoord += 0.5f
-      } else {
-        xCoord -= 0.5f
+    P.squirtHandler.squirts.foreach(this.checkCollision(_))
+    
+    if(!shouldGoUP) {
+        yCoord = cos(cosVal).toFloat * 15.0f + 260f
+        cosVal = cosVal + 0.01f * 5f
+    }
+        if (xCoord > xDestination - 1 && xCoord < xDestination + 1) {
+          xCoord = xDestination
+        } else if (fromLeft) {
+          xCoord += 0.5f
+        } else {
+          xCoord -= 0.5f
       }
       draw
-    } else {
+      
+    
+//      yCoord -= 10
+      //isSaved = true
+      
+         
+    if(shouldGoUP){
       yCoord -= 10
-      draw
+      
     }
   }
   
-  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
+  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width + 40, this.image.height + 40)
   
 }
-//  //  P.sketchFile("Barrel.png")
-//  private val image = P.loadImage("Barrel.png")
-//  image.resize(35,35)
-//  private var xCoord = if (fromLeft) 0.0f else 1140
-//  private var yCoord = 260.0f
-//  private var isSaved = false
-//  
-//  damage = 0
-//  
-//  var cosVal = 0.0f
-//  
-//  def getX = xCoord
-//  def getY = yCoord
-//  
-//  def draw = P.image(image ,getX, getY)
-//  
-//  def move()= {
-//    if (!this.checkCollision(Whale) && flag) {
-//      yCoord = cos(cosVal).toFloat * 15.0f + 260f
-//      cosVal = cosVal + 0.01f * 5f
-//
-//      if (xCoord > xDestination - 1 && xCoord < xDestination + 1) {
-//        xCoord = xDestination
-//      } else if (fromLeft) {
-//        xCoord += 0.5f
-//      } else {
-//        xCoord -= 0.5f
-//      }
-//      draw
-//    } else {
-//      yCoord -= 10
-//      draw
-//    }
-//  }
-//  
-//  def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, 35, 35)
-//  
-//  
-//  
-////  def interLapsWithWhale = {
-////    if (Whale.bounds.intersects(bounds)) {
-////      isSaved = true
-////    }
-////    isSaved
-////  }
-//  

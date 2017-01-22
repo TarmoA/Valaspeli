@@ -5,6 +5,10 @@ import java.awt.Rectangle
 
 class Pelican(p: ScalaProcessingExample,position: PVector, velocity: PVector, acceleration: PVector, img: PImage) extends Actor{
   
+  override def hitAction(obj: Actor) = {
+    if(obj.isInstanceOf[Squirt])
+      Whale.score += 500
+  }
  
   def run = {
     update
