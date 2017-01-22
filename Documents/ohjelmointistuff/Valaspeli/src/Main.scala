@@ -12,7 +12,9 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Other/Play.png")
   sketchFile("Other/life.png")
   sketchFile("Characters/Pelican.png")
+  sketchFile("Other/Sky2.png")
   val pelicanImg = loadImage("Characters/Pelican.png")
+  var sky = loadImage("Other/Sky2.png")
   val pelicanSpawner = new PelicanHandler(this, pelicanImg)
   var running = true
   var currentAngle = 0f
@@ -139,8 +141,8 @@ class ScalaProcessingExample extends PApplet {
   val squirtHandler = new SquirtHandler(this)
 
   def drawBackground = {
-
-    background(135, 206, 250);
+	  background(135, 206, 250);
+	  image(sky, 0,0)
     strokeWeight(1)
     fill(142, 229, 238);
     // We are going to draw a polygon out of the wave points
