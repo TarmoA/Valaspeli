@@ -9,7 +9,6 @@ trait Actor {
   def getBounds: Rectangle
   def checkCollision(obj: Actor) = {
     if(obj.getBounds.intersects(this.getBounds) && flag){
-      println("lit")
       flag = false
       hitAction(obj)
       obj.hitAction(this)
@@ -22,10 +21,11 @@ trait Actor {
   def hitAction(obj: Actor) = {
     if(obj.isInstanceOf[Trash])
       health = health - obj.damage
-    if(obj.isInstanceOf[Squirt])
-      Whale.score += 500
+    if(obj.isInstanceOf[Pelican])
+      Whale.health -= 33
     if(obj.isInstanceOf[Barrel])
     	Whale.score += this.scorePlus
+    
   }
   
   def isDestroyed: Boolean = health <= 0

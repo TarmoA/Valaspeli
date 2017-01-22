@@ -12,9 +12,9 @@ class Input(m: ScalaProcessingExample){
   var loc = new PVector(0,0)
   
   def keyPressed (e: KeyEvent)= {
-     if (e.getKey == 'd'){
+     if (e.getKey == 'd' || e.getKey == 'D'){
       m.state = STATE.GAME
-     }else if(e.getKey == 'e'){
+     }else if(e.getKey == 'e' || e.getKey == 'E'){
        if(Whale.dir == 1) 
          m.radar.useRadar(Whale.position.x + 30, Whale.position.y - 30)
        else
@@ -22,20 +22,23 @@ class Input(m: ScalaProcessingExample){
      }else if(e.getKey == 't'){
        m.powerups.foreach(_.alpha = 255)
      }
-     if (e.getKey == 'a') m.squirtHandler.squirt
+     if (e.getKey == 'a' || e.getKey == 'A') m.squirtHandler.squirt
       
-     if (e.getKey == 'd'){
+     if (e.getKey == 'd' || e.getKey == 'D'){
       m.state = STATE.GAME
      }
-     if (e.getKey == 'a') m.squirtHandler.squirt
       
   }
   
    def mousePressed(location: PVector) = {
      loc = loc
-    if(Menu.inBounds(location.x.toInt, location.y.toInt)){
+    if(Menu.inBounds(location.x.toInt, location.y.toInt) && m.state == STATE.MENU){
       m.state = STATE.GAME
+    }else if(Menu.inBounds(location.x.toInt, location.y.toInt) && m.state == STATE.DEATH){
+      println("moi")
+      m.resetGame
     }
+     
    seek = true
     
   }

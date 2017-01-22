@@ -26,12 +26,10 @@ class Drowner(P: ScalaProcessingExample, xDestination: Float, fromLeft: Boolean)
   
   
   override def hitAction(obj: Actor) = {
-    println("hithit")
     Whale.score += 100
     shouldGoUP = true
   }
   
-  /*TÄMÄ EI TOIMI*/
   def move()= {
     P.squirtHandler.squirts.foreach(this.checkCollision(_))
     

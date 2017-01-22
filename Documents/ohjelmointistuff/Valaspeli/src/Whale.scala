@@ -47,7 +47,7 @@ object Whale extends PApplet with Actor {
     bounds = new Rectangle(position.x.toInt - 60, position.y.toInt - 70, img.width / 3, img.height / 3)
     
     if (!isDestroyed) {
-
+      
       position = position.add(arrive(target, delta))
     }
     if (position.x < 0) {
@@ -62,7 +62,7 @@ object Whale extends PApplet with Actor {
     if (position.y > 640) {
       position.y = 640
     }
-
+    
   }
 
   def dir() = {

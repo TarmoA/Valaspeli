@@ -7,7 +7,7 @@ class Pelican(p: ScalaProcessingExample,position: PVector, velocity: PVector, ac
   
   override def hitAction(obj: Actor) = {
     if(obj.isInstanceOf[Squirt])
-      Whale.score += 500
+      Whale.score += 1000
   }
  
   def run = {

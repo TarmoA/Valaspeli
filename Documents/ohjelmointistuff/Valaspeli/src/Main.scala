@@ -13,8 +13,10 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Other/life.png")
   sketchFile("Characters/Pelican.png")
   sketchFile("Other/Sky2.png")
+  sketchFile("Death.png")
   val pelicanImg = loadImage("Characters/Pelican.png")
   var sky = loadImage("Other/Sky2.png")
+  var gameover = loadImage("Death.png")
   val pelicanSpawner = new PelicanHandler(this, pelicanImg)
   var running = true
   var currentAngle = 0f
@@ -32,9 +34,9 @@ class ScalaProcessingExample extends PApplet {
   var life = loadImage("Other/life.png")
   life.resize(25, 25)
 
-  val b = new Barrel(this, 400, true)
-  val k = new Drowner(this, 200, false)
-  val t = new Trash(this, 450, true)
+//  val b = new Barrel(this, 400, true)
+//  val k = new Drowner(this, 200, false)
+//  val t = new Trash(this, 450, true)
   val NotHarpoonSpawner = new NotHarpoonSpawner(this)
   var harpoonSpawner = new HarpoonSpawner(this)
 
@@ -62,12 +64,8 @@ class ScalaProcessingExample extends PApplet {
         index += 1
       }
       
-      this.text("Score " + Whale.score.toString(), this.width - 150, 28)
+      this.text("Score " + Whale.score.toString(), this.width - 200, 28)
       
-      
-      b.move()
-      k.move()
-      t.move()
       
       NotHarpoonSpawner.tick
       
@@ -130,12 +128,19 @@ class ScalaProcessingExample extends PApplet {
       pelicanSpawner.update
       harpoonSpawner.harpoons.foreach(_.draw())
       harpoonSpawner.harpoonsRight.foreach(_.draw())
-   //      for(i <- powerups)
-//        rect(i.x.toInt, i.y.toInt, i.width, i.height)
+      
+      
+      if(Whale.isDestroyed){
+        state = STATE.DEATH
+      }
+      
     } else if (state == STATE.MENU) {
 
       image(menu, Menu.x, Menu.y)
+    } else if (state == STATE.DEATH){
+      image(gameover, Menu.x, Menu.y)
     }
+      
 
   }
   val squirtHandler = new SquirtHandler(this)
@@ -183,6 +188,18 @@ class ScalaProcessingExample extends PApplet {
   def collision(powerup: Powerup) = {
     if(sqrt(pow(powerup.y - radar.circles(0).y, 2) + pow(powerup.x - radar.circles(0).x, 2)).toFloat < radar.circles(0).radius / 2)
       powerup.alpha = 255
+  }
+  
+  def resetGame {
+    powerups.clear()
+    this.NotHarpoonSpawner.barrels.clear()
+    this.NotHarpoonSpawner.drowners.clear()
+    this.harpoonSpawner.harpoons.clear()
+    this.pelicanSpawner.pelicans.clear()
+    Whale.health = 100
+    Whale.score = 0
+    addPowerups(5)
+    state = STATE.GAME
   }
 
   def tick() = {
