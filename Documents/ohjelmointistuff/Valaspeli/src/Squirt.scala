@@ -1,4 +1,3 @@
-
 import scala.collection.mutable.Buffer
 import processing.core._
 import scala.math._
@@ -8,20 +7,24 @@ import java.awt.geom.Ellipse2D
 class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, direction: PVector, squirtOffsetAngle: Float) extends Actor {
   
   //def straightDir = direction.copy.rotate((Pi/2).toFloat)
-  
-  var lifeTime = 45
-  def isDead = lifeTime <= 0
-  
+	var lifeTime = 45
+  Audio.play("Audio/squirt.wav",false)
   var particles = Buffer[Particle]()
   
   var posDelta = new PVector(90,20)
-
-  Audio.play("Audio/squirt.wav",false)
+ 
   def run = {
     if (!isDead) {
       update
     }
   }
+	
+	override def hitAction(obj: Actor)= {
+	  if(obj.isInstanceOf[Pelican])
+      Whale.score += 1000
+	}
+	
+  def isDead = lifeTime <= 0
   
   
   def getVel = {
@@ -33,7 +36,7 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
       new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle)).sub(direction.copy.mult(10))
     }else new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle + Pi.toFloat)).sub(direction.copy.mult(10))
   }
-
+  
   def getSquirt0Pos = {
   getOffSet
   }
@@ -52,13 +55,7 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   lifeTime -= 1
   }
  
-         
-         
-  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 10, 10)
-  
-  
-
-
+  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 50, 150)
 }
 
 class Particle(p:PApplet, position: PVector, velocity: PVector, acceleration: PVector) {
@@ -127,5 +124,3 @@ class SquirtHandler(p:PApplet) {
 
 
   }
-
-

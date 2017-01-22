@@ -3,14 +3,12 @@ import processing.core._
 import scala.math._
 import java.awt.Rectangle
 
-class Pelican(p: ScalaProcessingExample,position: PVector, velocity: PVector, acceleration: PVector, img: PImage) extends Actor{
+class Pelican(p: WhaleGame,position: PVector, velocity: PVector, acceleration: PVector, img: PImage) extends Actor{
   
-
-  override def hitAction(obj: Actor) = {
-    if(obj.isInstanceOf[Squirt])
-      Whale.score += 500
-  }
-
+//  override def hitAction(obj: Actor) = {
+//    if(obj.isInstanceOf[Squirt])
+//      Whale.score += 1000
+//  }
  
   def run = {
     update
@@ -21,9 +19,7 @@ class Pelican(p: ScalaProcessingExample,position: PVector, velocity: PVector, ac
     position.add(velocity)
     velocity.add(acceleration)
     p.squirtHandler.squirts.foreach(this.checkCollision(_))
-
     Whale.checkCollision(this)
-
     if (!flag) velocity.add(new PVector(0,-0.1f))
     
   }
@@ -40,7 +36,7 @@ class Pelican(p: ScalaProcessingExample,position: PVector, velocity: PVector, ac
   }
 }
 
-class PelicanHandler(p: ScalaProcessingExample, img: PImage) {
+class PelicanHandler(p: WhaleGame, img: PImage) {
   val pelicans = Buffer[Pelican]()
   
 

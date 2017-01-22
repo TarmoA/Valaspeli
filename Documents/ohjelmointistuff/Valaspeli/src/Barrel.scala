@@ -1,5 +1,7 @@
 import processing.core.PApplet
 import java.awt.Rectangle
+
+
 import processing.core._
 import scala.math._
 import java.awt.Rectangle
@@ -40,7 +42,7 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
   }
   
   def getBounds(): Rectangle = new Rectangle(xCoord.toInt, yCoord.toInt, this.image.width, this.image.height)
-
+  
 
 }
   
@@ -86,4 +88,3 @@ class Barrel(P: PApplet, xDestination: Float, fromLeft: Boolean) extends Actor {
 ////  }
 //  
 //
-

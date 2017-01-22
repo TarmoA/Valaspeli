@@ -26,11 +26,10 @@ class HarpoonSpawner(p: PApplet) {
   }
 
   private def spawnHarpoons(amount: Int) = {
-    Audio.play("Audio/harpoon.wav",false)
     harpoons = Buffer[Harpoon]()
     for (x <- 50 to 1200 by amount) {
 //      if (random.nextInt(10) > 4) {
-      harpoons += new Harpoon(p, new PVector(x, -120), false)
+      harpoons += new Harpoon(p, new PVector(x, -400), false)
 //      }
     }
 
@@ -38,14 +37,14 @@ class HarpoonSpawner(p: PApplet) {
   def tick(delta: Float) = {
     y += 2
     if (y >= 800) {
-      if (random.nextInt(3) > 2) {
+      if (random.nextInt(100) > 2) {
         spawnHarpoons(amount = random.nextInt(300) + 200)
       }
       y = 0
     }
     harpoons.foreach { x =>
       x.update
-      Whale.checkCollision(x)
+      x.checkCollision(Whale)
     }
 
   }

@@ -47,7 +47,7 @@ object Whale extends PApplet with Actor {
     bounds = new Rectangle(position.x.toInt - 60, position.y.toInt - 70, img.width / 3, img.height / 3)
     
     if (!isDestroyed) {
-
+      
       position = position.add(arrive(target, delta))
     }
     if (position.x < 0) {
@@ -62,7 +62,7 @@ object Whale extends PApplet with Actor {
     if (position.y > 640) {
       position.y = 640
     }
-
+    
   }
 
   def dir() = {
@@ -77,7 +77,6 @@ object Whale extends PApplet with Actor {
   def sub(v: PVector, v2: PVector) = {
     new PVector(v2.x - v.x, v2.y - v.y)
   }
-
 
   def normalize(v: PVector) = {
     new PVector(v.x / length(v), v.y / length(v))
@@ -100,13 +99,11 @@ object Whale extends PApplet with Actor {
     v.rotate(t)
   }
 
-
   def getNormal = {
     sub(target, position).rotate(math.Pi.toFloat / 2f)
   }
   
   def getBounds = bounds
-
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
 }
