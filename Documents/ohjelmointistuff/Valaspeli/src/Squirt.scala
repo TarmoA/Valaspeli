@@ -3,6 +3,7 @@ import processing.core._
 import scala.math._
 import java.awt.Rectangle
 import java.awt.geom.Ellipse2D
+
 class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, direction: PVector, squirtOffsetAngle: Float) extends Actor {
   
   //def straightDir = direction.copy.rotate((Pi/2).toFloat)
@@ -31,14 +32,10 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
       new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle)).sub(direction.copy.mult(10))
     }else new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle + Pi.toFloat)).sub(direction.copy.mult(10))
   }
+  
   def getSquirt0Pos = {
   getOffSet
   }
-  
- 
-
-  
-
   
   def mkParticle(amount: Int) = {
     for (int <- 1 to amount) {
@@ -57,12 +54,7 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
          
          
   def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 10, 10)
-  
-  
-
-
-  
-  
+//  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 10, 10) 
 }
 
 class Particle(p:PApplet, position: PVector, velocity: PVector, acceleration: PVector) {
@@ -116,6 +108,7 @@ class SquirtHandler(p:PApplet) {
         lastSquirt = timeNow
       }
     }
+    
     
     def update(sqAngle: Float, lkAngle: Float) = {
       squirts.foreach(_.run)

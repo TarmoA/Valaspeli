@@ -5,7 +5,6 @@ class Radar(p: PApplet, var x: Float, var y: Float){
   
   var circles = Buffer[Circle]()
   var counter: Int = _
-//  var isOn = false
   
   def useRadar(newX: Float, newY: Float) {
     circles.clear()

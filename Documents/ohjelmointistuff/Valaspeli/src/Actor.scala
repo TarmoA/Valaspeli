@@ -20,6 +20,10 @@ trait Actor {
   def hitAction(obj: Actor) = {
     if(obj.isInstanceOf[Trash])
       health = health - obj.damage
+    if(obj.isInstanceOf[Squirt])
+      Whale.score += 500
+    if(obj.isInstanceOf[Pelican])
+      Whale.health -= 33
   }
   
   def isDestroyed: Boolean = health <= 0

@@ -17,10 +17,7 @@ class Powerup(p: PApplet, val x: Float, val y: Float) extends Actor {
   
   override def hitAction(obj: Actor): Unit = {
     if(alpha > 1)
-      if(Random.nextBoolean) obj.health += 33 else{
-        Whale.score += 750
-    		println(Whale.score)
-      }
+      if(Random.nextBoolean) obj.health += 33 else Whale.score += 750
   }
   
   override def checkCollision(obj: Actor) = {

@@ -11,6 +11,9 @@ class ScalaProcessingExample extends PApplet {
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
   sketchFile("Other/life.png")
+  sketchFile("Characters/Pelican.png")
+  val pelicanImg = loadImage("Characters/Pelican.png")
+  val pelicanSpawner = new PelicanHandler(this, pelicanImg)
   var running = true
   var currentAngle = 0f
   val input = new Input(this)
@@ -59,7 +62,6 @@ class ScalaProcessingExample extends PApplet {
       }
 
       b.move()
-      // d.move()
       t.move()
       
       pushMatrix()
@@ -99,12 +101,7 @@ class ScalaProcessingExample extends PApplet {
       } else {
         currentAngle = d
       }
-      //      println("max: " + Whale.max_turn + "angle: " + angle)
-      //      angle = abs(min(abs(Whale.max_turn), abs(angle)))// + 90.toRadians
-      //      println("Väli: " + angle)
-      //      angle = angle*sign
-      //      println("Hei: " + angle)
-
+      
       rotate(angle + 90.toRadians)
       val loc = -60
       if (Whale.dir() == 1) {
@@ -118,38 +115,17 @@ class ScalaProcessingExample extends PApplet {
         pushMatrix()
         scale(1.0f, -1.0f)
         
-//        Whale.bounds = new Rectangle(-60, -70, Whale.img.width / 3, Whale.img.height / 2)
-        //rect(-60, -70, Whale.img.width / 3, Whale.img.height / 3)
-        
         image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
         squirtAngle = angle - 90.toRadians
         popMatrix()
        }
-//
-//      popMatrix()
-//      fill(0,255,0)
-//      this.rect(Whale.position.x, Whale.position.y, Whale.img.width / 3, Whale.img.height / 3)
-//    } else if(state == STATE.MENU){
-//      image(menu, Menu.x, Menu.y) 
-//    }
-//    
-//    b.move()
-//    d.move()
-//    t.move()
-//    
-//    this.textSize(28)
-//    this.fill(255, 0, 0)
-//    this.text("Lives", 10, 28)
-//    var index = 1
-//    
-//    while( Whale.health - index * 33 > 0) {
-//      this.image(life, 55 + index * 25, 7)
-//      index += 1
+      
       lookAngle = angle + Pi.toFloat
       popMatrix()
       Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
       squirtHandler.update(squirtAngle, lookAngle)
-//      for(i <- powerups)
+      pelicanSpawner.update
+   //      for(i <- powerups)
 //        rect(i.x.toInt, i.y.toInt, i.width, i.height)
     } else if (state == STATE.MENU) {
 
