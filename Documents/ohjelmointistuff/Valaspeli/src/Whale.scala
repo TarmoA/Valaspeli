@@ -1,13 +1,10 @@
-
-
 import java.util.Timer
+import java.awt.Rectangle
 
 import scala.math._
 import processing.core.PImage
 import processing.core.PApplet
 import processing.core.PVector
-import java.awt.geom.Rectangle2D
-import java.awt.Rectangle
 
 object Whale extends PApplet with Actor {
   sketchFile("Characters/Whale.png")
@@ -15,8 +12,7 @@ object Whale extends PApplet with Actor {
   var x = 100
   var y = 600
   var img = loadImage("Characters/Whale.png")
-  //var isDestroyed = false
-  //var health = 100
+  health = 100
   var timer = new Timer
   var lives = 3
   var target_offset: PVector = _
@@ -27,55 +23,29 @@ object Whale extends PApplet with Actor {
   var velocity = new PVector(0, 0)
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
+  
   var score = 0
-  var old_pos = position
-  var bounds = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
+  var bounds: Rectangle = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
   
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)
-    //println("pos: " + position)
     target_offset = position.sub(target)
-    //println("off:" + target_offset)
-    if(target_offset !=0){
-    distance = target_offset.mag()
+    if (target_offset != 0) {
+      distance = target_offset.mag()
     }
     var slow_distance = 150.0f
     var ramped_speed = max_speed * (distance / 150.0f)
     clipped_speed = min(ramped_speed, max_speed)
     desired_velocity = target_offset.mult(clipped_speed / distance)
-    //println("des: " + desired_velocity)
+    //println("des: " + )
     var steering = velocity.sub(desired_velocity)
     //println("Steering: " + steering)
     steering
   }
-  var counter = 0
-  /*def tick(delta: Float) = {
-    position = old_pos
-    //println("pos tick: " + position)
-    position = position.add(arrive(target, delta))
-    //println("pos: jälkeen" + position)
-//    if (position.x < 0) {
-//      position.x = 0
-//    }
-//    if (position.y < 0) {
-//      position.y = 0
-//    }
-//    if (position.x > 1140) {
-//      position.x = 1140
-//    }
-//    if (position.y > 640) {
-//      position.y = 640
-//    }
-    //    if(counter > 90000000){
-    //    //println(position)
-    counter = 0
-    //    }
-    counter += 1
-  }*/
-  
-  
-   def tick(delta: Float) = {
 
+  def tick(delta: Float) = {
+    bounds = new Rectangle(position.x.toInt - 60, position.y.toInt - 70, img.width / 3, img.height / 3)
+    
     if (!isDestroyed) {
 
       position = position.add(arrive(target, delta))
@@ -94,12 +64,7 @@ object Whale extends PApplet with Actor {
     }
 
   }
-  
-  def getNormal = {
-    sub(target, position).rotate(math.Pi.toFloat / 2f)
-  }
-  
-  
+
   def dir() = {
     var dis = sub(target, position)
     if (dis.x > 0) {
@@ -108,33 +73,11 @@ object Whale extends PApplet with Actor {
       1
     }
   }
-  
-  //def bounds(): Rectangle2D = new Rectangle(Whale.position.x.toInt, Whale.position.y.toInt, Whale.img.width,Whale.img.height )
 
   def sub(v: PVector, v2: PVector) = {
     new PVector(v2.x - v.x, v2.y - v.y)
   }
-<<<<<<< HEAD
-  
-  def getBounds = bounds
-  
 
-  def moveTo(location: PVector) = {
-//        position = location
-//    var old_pos = position
-//    target = location
-//    println(position + ", " + location + ", " + target)
-//    var offset = position.sub(location).normalize()
-//        println(offset)
-//    target = offset.add(offset.mult(2f))
-//    println("Target: " + target)
-//    println("Old pos:" + old_pos)
-//    position = old_pos
-    target = location//.copy.add(new PVector(-50,-20))
-
-  }
-
-=======
 
   def normalize(v: PVector) = {
     new PVector(v.x / length(v), v.y / length(v))
@@ -157,12 +100,13 @@ object Whale extends PApplet with Actor {
     v.rotate(t)
   }
 
+
   def getNormal = {
     sub(target, position).rotate(math.Pi.toFloat / 2f)
   }
-
+  
   def getBounds = bounds
 
->>>>>>> c0c0efe48662dccbaa54cabefbf78b774c6b7fbd
+
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
 }
