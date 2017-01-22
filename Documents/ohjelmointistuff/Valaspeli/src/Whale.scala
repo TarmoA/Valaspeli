@@ -24,7 +24,7 @@ object Whale extends PApplet with Actor {
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
   var score = 0
-  var bounds: Rectangle = new java.awt.Rectangle(position.x.toInt, position.y.toInt,img.width / 3, img.height / 3)
+  var bounds: Rectangle = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
   
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)

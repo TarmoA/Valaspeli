@@ -5,14 +5,13 @@ class Radar(p: PApplet, var x: Float, var y: Float){
   
   var circles = Buffer[Circle]()
   var counter: Int = _
-  var isOn = false
+//  var isOn = false
   
   def useRadar(newX: Float, newY: Float) {
     circles.clear()
     counter = 0
     x = newX
     y = newY
-    isOn = true
     circles += new Circle(p, x, y)
   }
   

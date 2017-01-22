@@ -18,7 +18,6 @@ class Input(m: ScalaProcessingExample){
          m.radar.useRadar(Whale.position.x + 30, Whale.position.y - 30)
        else
          m.radar.useRadar(Whale.position.x - 30, Whale.position.y - 30)
-         m.radar.isOn = true
      }else if(e.getKey == 't'){
        m.powerups.foreach(_.alpha = 255)
      }

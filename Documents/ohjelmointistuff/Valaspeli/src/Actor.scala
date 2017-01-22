@@ -13,13 +13,13 @@ trait Actor {
       obj.hitAction(this)
       true
     }else{
-      flag = true
       false
     }
   }
   
-  def hitAction(obj:Actor) = {
-    health = health - obj.damage
+  def hitAction(obj: Actor) = {
+    if(obj.isInstanceOf[Trash])
+      health = health - obj.damage
   }
   
   def isDestroyed: Boolean = health <= 0

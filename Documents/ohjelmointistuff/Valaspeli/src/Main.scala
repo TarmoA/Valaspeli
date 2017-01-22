@@ -71,7 +71,7 @@ class ScalaProcessingExample extends PApplet {
 
       //      var v = Whale.normalize(Whale.velocity).mult(8)
       var v = new PVector(0, 0)
-      println(Whale.desired_velocity)
+//      println(Whale.desired_velocity)
       var d = PVector.angleBetween(v, new PVector(1, 0))
       line(Whale.position.x, Whale.position.y, Whale.position.x + v.x, Whale.position.y + v.y)
 
@@ -88,8 +88,8 @@ class ScalaProcessingExample extends PApplet {
           1
         }
       }
-      println("d: " + d.toDegrees)
-      println("angle: " + angle.toDegrees)
+//      println("d: " + d.toDegrees)
+//      println("angle: " + angle.toDegrees)
       //      currentAngle = angle
       var squirtAngle = 0f
       var lookAngle = 0f
@@ -111,14 +111,14 @@ class ScalaProcessingExample extends PApplet {
         image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
         
         //rect(-60, -70, Whale.img.width / 3, Whale.img.height / 3)
-        Whale.bounds = new Rectangle(-60, -70, Whale.img.width / 3, Whale.img.height / 3)
+//        Whale.bounds = new Rectangle(-60, -70, Whale.img.width / 3, Whale.img.height / 3)
         
         squirtAngle = angle + 90.toRadians
       } else {
         pushMatrix()
         scale(1.0f, -1.0f)
         
-        Whale.bounds = new Rectangle(-60, -70, Whale.img.width / 3, Whale.img.height / 2)
+//        Whale.bounds = new Rectangle(-60, -70, Whale.img.width / 3, Whale.img.height / 2)
         //rect(-60, -70, Whale.img.width / 3, Whale.img.height / 3)
         
         image(Whale.img, loc, loc, Whale.img.width / 3, Whale.img.height / 3)
@@ -149,6 +149,8 @@ class ScalaProcessingExample extends PApplet {
       popMatrix()
       Bubbles.bubbles.foreach { x => image(bubble, x.x, x.y.toInt, x.size, x.size) }
       squirtHandler.update(squirtAngle, lookAngle)
+//      for(i <- powerups)
+//        rect(i.x.toInt, i.y.toInt, i.width, i.height)
     } else if (state == STATE.MENU) {
 
       image(menu, Menu.x, Menu.y)
@@ -196,14 +198,19 @@ class ScalaProcessingExample extends PApplet {
 	  for(a <- 0 until i)
 		  powerups += new Powerup(this, a*225 + Random.nextInt(225), 570 + Random.nextInt(20))
   }  
+  
+  def collision(powerup: Powerup) = {
+    if(sqrt(pow(powerup.y - radar.circles(0).y, 2) + pow(powerup.x - radar.circles(0).x, 2)).toFloat < radar.circles(0).radius / 2)
+      powerup.alpha = 255
+  }
 
   def tick() = {
     if(radar.circles.size > 0){
-    	powerups.foreach(_.checkCollision(radar.circles(0)))
+    	powerups.foreach(collision)
       radar.update()
     }
-    powerups.foreach(_.display) 
-    if(radar.isOn) radar.update()
+    powerups.foreach(_.update) 
+    
     Bubbles.bubbles.foreach { x => x.tick(1f) }
     Whale.tick(1)
     
@@ -222,7 +229,7 @@ class ScalaProcessingExample extends PApplet {
         if (state == STATE.GAME) {
           Whale.tick(delta)
           if (counter > 90000000) {
-            println(delta)
+//            println(delta)
             counter = 0
           }
           counter += 1

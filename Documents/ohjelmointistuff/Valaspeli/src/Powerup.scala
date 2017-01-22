@@ -11,23 +11,41 @@ class Powerup(p: PApplet, val x: Float, val y: Float) extends Actor {
   var alpha = 0
   val width = 40
   val height = 40
-  var img  = if(Random.nextBoolean) starfish else urchin 
+  var img = if(Random.nextBoolean) starfish else urchin
   
-  def getBounds: Rectangle = new Rectangle(x.toInt, y.toInt, width, height)
+  def getBounds: Rectangle = new Rectangle(x.toInt + width/2, y.toInt + height/2, width, height)
   
   override def hitAction(obj: Actor): Unit = {
-    if(obj.isInstanceOf[Circle])
-    	alpha = 255
-    else if(obj == Whale)
-      println("valas")
-      
+    if(alpha > 1)
+      if(Random.nextBoolean) obj.health += 33 else{
+        Whale.score += 750
+    		println(Whale.score)
+      }
   }
+  
+  override def checkCollision(obj: Actor) = {
+    if(obj.getBounds.intersects(this.getBounds) && flag && alpha > 1){
+      flag = false
+      hitAction(obj)
+      obj.hitAction(this)
+      true
+    }else{
+      false
+    }
+  }
+  
+  def draw = p.image(img, x, y, width, height)
+
    
-  def display {
-    p.noStroke()
-    p.tint(255, alpha)
-    p.image(img, x, y, width, height)
-    p.tint(255,255)
-    alpha -= 1
+  def update {
+    
+    if (!this.checkCollision(Whale) && flag){
+      
+    	p.noStroke()
+    	p.tint(255, alpha)
+    	this.draw
+    	p.tint(255,255)
+    	alpha -= 1
+    }
   }
 }
