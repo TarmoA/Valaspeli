@@ -20,7 +20,7 @@ trait Actor {
   
   def hitAction(obj: Actor) = {
     if(obj.isInstanceOf[Trash])
-      health = health - obj.damage
+      health -= 33
     if(obj.isInstanceOf[Pelican])
       Whale.health -= 33
     if(obj.isInstanceOf[Barrel])

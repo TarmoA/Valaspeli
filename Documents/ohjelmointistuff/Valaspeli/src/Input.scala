@@ -7,7 +7,7 @@ import processing.core.PVector
 import processing.event.KeyEvent
 import scala.math._
 
-class Input(m: ScalaProcessingExample){
+class Input(m: WhaleGame){
   var seek = false
   var loc = new PVector(0,0)
   
@@ -35,7 +35,6 @@ class Input(m: ScalaProcessingExample){
     if(Menu.inBounds(location.x.toInt, location.y.toInt) && m.state == STATE.MENU){
       m.state = STATE.GAME
     }else if(Menu.inBounds(location.x.toInt, location.y.toInt) && m.state == STATE.DEATH){
-      println("moi")
       m.resetGame
     }
      

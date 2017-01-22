@@ -2,7 +2,7 @@ import scala.util.Random
 import scala.collection.mutable.Buffer
 
 
-class NotHarpoonSpawner(P: ScalaProcessingExample) {
+class NotHarpoonSpawner(P: WhaleGame) {
     
   var barrels = Buffer[Barrel]()
   var drowners = Buffer[Drowner]()
@@ -28,7 +28,6 @@ class NotHarpoonSpawner(P: ScalaProcessingExample) {
   def tick = {
     if (P.millis() > time + 5 * 1000) {
       if (decide) {
-        println("nyt tulee")
         this.spawnDrowner
       } else {
         this.spawnBarrel

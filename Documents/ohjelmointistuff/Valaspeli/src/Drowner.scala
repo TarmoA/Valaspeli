@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D
 import processing.core.PApplet
 
 
-class Drowner(P: ScalaProcessingExample, xDestination: Float, fromLeft: Boolean) extends Actor {
+class Drowner(P: WhaleGame, xDestination: Float, fromLeft: Boolean) extends Actor {
   P.sketchFile("Characters/Raincoat.png")
   private val image = P.loadImage("Characters/Raincoat.png")
   image.resize(50,50)

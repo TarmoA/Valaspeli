@@ -15,7 +15,7 @@ class Harpoon(p: PApplet, spawn:PVector, right: Boolean) extends Actor {
   var cosV = rand.nextFloat()*10
   var hit = false 
   private var first = true
-  
+
   def getX = location.x
   def getY = location.y
   
@@ -45,9 +45,9 @@ class Harpoon(p: PApplet, spawn:PVector, right: Boolean) extends Actor {
   }
   
   override def hitAction(obj: Actor) = {
-    println(first)
     if(first){
-    	Whale.health -= 33  
+        Audio.play("Audio/harpoon.wav",false)
+    	Whale.health -= 33 
     	first = false
     }
   }

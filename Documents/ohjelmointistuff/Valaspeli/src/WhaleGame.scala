@@ -6,7 +6,7 @@ import processing.event.KeyEvent
 import scala.collection.mutable.Buffer
 import java.awt.Rectangle
 
-class ScalaProcessingExample extends PApplet {
+class WhaleGame extends PApplet {
   sketchFile("Characters/Whale.png")
   sketchFile("Map/SeaBed.png")
   sketchFile("Other/Play.png")
@@ -28,7 +28,7 @@ class ScalaProcessingExample extends PApplet {
   var menu = loadImage("Other/Play.png")
   var powerups = Buffer[Powerup]()
   
-  
+  Audio.setVolume(1)
   var bubble = loadImage("Other/Bubble.png")
   var last = new PVector(0, 0)
   var life = loadImage("Other/life.png")
@@ -39,6 +39,10 @@ class ScalaProcessingExample extends PApplet {
 //  val t = new Trash(this, 450, true)
   val NotHarpoonSpawner = new NotHarpoonSpawner(this)
   var harpoonSpawner = new HarpoonSpawner(this)
+  var lastBubbleSound = 0L
+  var timePerBubbleSound = 4
+
+  def timeNow = System.currentTimeMillis() / 1000
 
   override def setup() = {
     frameRate(120)
@@ -128,7 +132,10 @@ class ScalaProcessingExample extends PApplet {
       pelicanSpawner.update
       harpoonSpawner.harpoons.foreach(_.draw())
       harpoonSpawner.harpoonsRight.foreach(_.draw())
-      
+      if (timeNow >= lastBubbleSound + timePerBubbleSound) {
+        Audio.play("Audio/bubble.wav",false)
+        lastBubbleSound = timeNow
+      }
       
       if(Whale.isDestroyed){
         state = STATE.DEATH
@@ -144,7 +151,7 @@ class ScalaProcessingExample extends PApplet {
 
   }
   val squirtHandler = new SquirtHandler(this)
-
+//This is an example from processing tutorials: https://processing.org/examples/noisewave.html
   def drawBackground = {
 	  background(135, 206, 250);
 	  image(sky, 0,0)
@@ -211,37 +218,11 @@ class ScalaProcessingExample extends PApplet {
     harpoonSpawner.tick(1f)
     Bubbles.bubbles.foreach { x => x.tick(1f) }
     Whale.tick(1)
+    this.pelicanSpawner.pelicans.foreach(Whale.checkCollision(_))
 //    this.squirtHandler.getSquirts.foreach(_.getBounds.intersection(r))
     //rect(Whale.position.x.toInt - 60, Whale.position.y.toInt - 70, Whale.img.width / 3, Whale.img.height / 2)
-    
     input.update(mouseX, mouseY)
   }
-  var thread = new Thread {
-    override def run() = {
-      var counter = 0
-      var last = System.currentTimeMillis()
-      while (running) {
-        var now = System.currentTimeMillis()
-        var delta = (now - last) / 10f
-        last = now
-        if (state == STATE.GAME) {
-          Whale.tick(delta)
-          if (counter > 90000000) {
-//            println(delta)
-            counter = 0
-          }
-          counter += 1
-        }
-
-        //        Input.update(mouseX, mouseY)
-
-      }
-
-    }
-
-  }
-  //  thread.start
-
   override def keyPressed(e: KeyEvent){
     input.keyPressed(e)
   }
@@ -257,8 +238,8 @@ class ScalaProcessingExample extends PApplet {
 }
 
 
-object ScalaProcessingExample {
+object WhaleGame {
   def main(args: Array[String]) {
-    PApplet.main(Array[String]("ScalaProcessingExample"))
+    PApplet.main(Array[String]("WhaleGame"))
   }
 }

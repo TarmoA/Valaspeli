@@ -7,20 +7,24 @@ import java.awt.geom.Ellipse2D
 class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, direction: PVector, squirtOffsetAngle: Float) extends Actor {
   
   //def straightDir = direction.copy.rotate((Pi/2).toFloat)
-  
-  var lifeTime = 45
-  def isDead = lifeTime <= 0
-  
+	var lifeTime = 45
+  Audio.play("Audio/squirt.wav",false)
   var particles = Buffer[Particle]()
   
   var posDelta = new PVector(90,20)
-
-    
+ 
   def run = {
     if (!isDead) {
       update
     }
   }
+	
+	override def hitAction(obj: Actor)= {
+	  if(obj.isInstanceOf[Pelican])
+      Whale.score += 1000
+	}
+	
+  def isDead = lifeTime <= 0
   
   
   def getVel = {

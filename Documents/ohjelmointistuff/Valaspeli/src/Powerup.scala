@@ -25,6 +25,7 @@ class Powerup(p: PApplet, val x: Float, val y: Float) extends Actor {
       flag = false
       hitAction(obj)
       obj.hitAction(this)
+      Audio.play("Audio/powerup.wav",false)
       true
     }else{
       false
