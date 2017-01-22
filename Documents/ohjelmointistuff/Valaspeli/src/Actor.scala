@@ -9,12 +9,13 @@ trait Actor {
   def getBounds: Rectangle
   def checkCollision(obj: Actor) = {
     if(obj.getBounds.intersects(this.getBounds) && flag){
+      println("lit")
       flag = false
       hitAction(obj)
       obj.hitAction(this)
       true
     } else {
-      
+//      flag = true
       false
     }
   }

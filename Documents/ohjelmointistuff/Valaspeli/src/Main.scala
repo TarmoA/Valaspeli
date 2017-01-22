@@ -28,6 +28,7 @@ class ScalaProcessingExample extends PApplet {
   val b = new Barrel(this, 400, true)
   val k = new Drowner(this, 200, false)
   val t = new Trash(this, 450, true)
+  val NotHarpoonSpawner = new NotHarpoonSpawner(this)
 
 
   override def setup() = {
@@ -44,7 +45,6 @@ class ScalaProcessingExample extends PApplet {
     image(img, 0, 480)
     if (state == STATE.GAME) {
       tick
-
       
       this.textSize(28)
       this.fill(255, 0, 0)
@@ -61,6 +61,7 @@ class ScalaProcessingExample extends PApplet {
       b.move()
       k.move()
       t.move()
+      NotHarpoonSpawner.tick
       
       pushMatrix()
 
@@ -71,7 +72,6 @@ class ScalaProcessingExample extends PApplet {
 
       //      var v = Whale.normalize(Whale.velocity).mult(8)
       var v = new PVector(0, 0)
-      println(Whale.desired_velocity)
       var d = PVector.angleBetween(v, new PVector(1, 0))
       line(Whale.position.x, Whale.position.y, Whale.position.x + v.x, Whale.position.y + v.y)
 
@@ -88,9 +88,7 @@ class ScalaProcessingExample extends PApplet {
           1
         }
       }
-      println("d: " + d.toDegrees)
-      println("angle: " + angle.toDegrees)
-      //      currentAngle = angle
+//      println("d: " + d.toDegrees)
       var squirtAngle = 0f
       var lookAngle = 0f
       var distance = abs(angle - d)
@@ -176,7 +174,7 @@ class ScalaProcessingExample extends PApplet {
     if(radar.isOn) radar.update()
     Bubbles.bubbles.foreach { x => x.tick(1f) }
     Whale.tick(1)
-    
+//    this.squirtHandler.getSquirts.foreach(_.getBounds.intersection(r))
     //rect(Whale.position.x.toInt - 60, Whale.position.y.toInt - 70, Whale.img.width / 3, Whale.img.height / 2)
     
     input.update(mouseX, mouseY)
