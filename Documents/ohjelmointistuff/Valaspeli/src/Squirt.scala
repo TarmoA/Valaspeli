@@ -1,10 +1,10 @@
-
 import scala.collection.mutable.Buffer
 import processing.core._
 import scala.math._
 import java.awt.Rectangle
 import java.awt.geom.Ellipse2D
-class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, direction: PVector, squirtOffsetAngle: Float) {
+
+class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, direction: PVector, squirtOffsetAngle: Float) extends Actor {
   
   //def straightDir = direction.copy.rotate((Pi/2).toFloat)
   
@@ -19,7 +19,6 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   def run = {
     if (!isDead) {
       update
-      display
     }
   }
   
@@ -27,14 +26,17 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   def getVel = {
     direction.copy.rotate(p.random(-0.08f,0.08f)).mult(p.random(10f,15f))
   }
-  
-  def getSquirt0Pos = {
-  new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle)).sub(direction.copy.mult(10))
+  def getOffSet = {
+    val offSet = new PVector(-60,0)
+    if (Whale.dir == 1){
+      new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle)).sub(direction.copy.mult(10))
+    }else new PVector(whalePos.x,whalePos.y).add(offSet.copy.rotate(squirtOffsetAngle + Pi.toFloat)).sub(direction.copy.mult(10))
   }
   
-  
-  val offSet = new PVector(-90,0)
-  
+  def getSquirt0Pos = {
+  getOffSet
+  }
+
   def mkParticle(amount: Int) = {
     for (int <- 1 to amount) {
       val particle = new Particle(p,getSquirt0Pos,getVel, new PVector(0,p.random(0.1f,1f)))
@@ -48,34 +50,8 @@ class Squirt(p: PApplet, whalePos: PVector, height: PVector, width: PVector, dir
   particles = particles.filter(!_.isDead)
   lifeTime -= 1
   }
-  //var calcPos = whalePos.copy 
- /* val coords = Array[Float](whalePos.x, whalePos.y,
-         calcPos.add(height).x, calcPos.y,
-         calcPos.add(width).x,calcPos.y,
-         calcPos.sub(height).x,calcPos.y
-         )*/
-         
-         
-  //val rect = (whalePos.x, whalePos.y,width.x, height.y)
-  def getBounds = new Rectangle((whalePos.x + posDelta.x-width.x/2).toInt, (whalePos.y + posDelta.y - height.y).toInt, width.x.toInt, height.y.toInt)
-  
-
-  def display = {
-    /*p.quad(whalePos.x,   whalePos.y, 
-        whalePos.x+10, whalePos.y,
-        whalePos.x+15, whalePos.y-100,
-        whalePos.x -5, whalePos.y-100
-  )*/
-  
-    
-  //p.rect(whalePos.x + posDelta.x, whalePos.y + posDelta.y,width.x, height.y)
-  //p.quad(coords(0),coords(1),coords(2),coords(3),coords(4),coords(5),coords(6),coords(7))
-  }
-  
-
-
-  
-  
+ 
+  def getBounds = new Rectangle((getOffSet.x).toInt, (getOffSet.y).toInt, 50, 150)
 }
 
 class Particle(p:PApplet, position: PVector, velocity: PVector, acceleration: PVector) {
@@ -115,6 +91,7 @@ class SquirtHandler(p:PApplet) {
     val squirtHeight = new PVector(0,-80)
     val squirtWidth = new PVector(-20,0)
     var squirts = Buffer[Squirt]() 
+    def getSquirts = this.squirts
     def timeNow = System.currentTimeMillis() / 1000
     var lastSquirt = 0L
     val timeBetweenSquirts = 1
@@ -130,10 +107,16 @@ class SquirtHandler(p:PApplet) {
       }
     }
     
+    
     def update(sqAngle: Float, lkAngle: Float) = {
       squirts.foreach(_.run)
       squirts = squirts.filter(!_.isDead)
       squirtAngle = sqAngle
       squirtOffsetAngle = lkAngle
-      }
+      
+
+  }
+
+
+
   }

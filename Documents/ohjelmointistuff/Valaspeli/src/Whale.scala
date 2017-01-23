@@ -1,5 +1,3 @@
-
-
 import java.util.Timer
 import java.awt.Rectangle
 
@@ -25,8 +23,10 @@ object Whale extends PApplet with Actor {
   var velocity = new PVector(0, 0)
   var target = new PVector(100, 100)
   var desired_velocity: PVector = _
+  
   var score = 0
-  var bounds = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
+  var bounds: Rectangle = new Rectangle(position.x.toInt, position.y.toInt, img.width / 3, img.height / 3)
+  
   def arrive(target: PVector, delta: Float) = {
     def getDesired_velocity = target_offset.mult(clipped_speed / distance)
     target_offset = position.sub(target)
@@ -44,7 +44,8 @@ object Whale extends PApplet with Actor {
   }
 
   def tick(delta: Float) = {
-
+    bounds = new Rectangle(position.x.toInt - 60, position.y.toInt - 70, img.width / 3, img.height / 3)
+    
     if (!isDestroyed) {
 
       position = position.add(arrive(target, delta))
@@ -101,7 +102,7 @@ object Whale extends PApplet with Actor {
   def getNormal = {
     sub(target, position).rotate(math.Pi.toFloat / 2f)
   }
-
+  
   def getBounds = bounds
 
   override def toString = "Choo choo, lives: " + lives + ", score: " + score
